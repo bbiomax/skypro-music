@@ -1,36 +1,43 @@
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./SignUp.module.css";
+import classNames from "classnames";
 
 export default function SignUpPage() {
   return (
-    <div className="wrapper">
-      <div className="container-signup">
-        <div className="modal__block">
-          <form className="modal__form-login">
-            <a href="../">
-              <div className="modal__logo">
-                <Image src="/../img/logo_modal.png" alt="logo" width={140} height={21} />
+    <div className={styles.wrapper}>
+      <div className={styles.containerSignup}>
+        <div className={styles.modalBlock}>
+          <form className={styles.modalFormLogin}>
+            <a href="/">
+              <div className={styles.modalLogo}>
+                <Image
+                  src="/img/logo_modal.png"
+                  alt="logo"
+                  width={140}
+                  height={21}
+                />
               </div>
             </a>
             <input
-              className="modal__input login"
+              className={classNames(styles.modalInput, styles.login)}
               type="text"
               name="login"
               placeholder="Почта"
             />
             <input
-              className="modal__input password-first"
+              className={classNames(styles.modalInput, styles.passwordFirst)}
               type="password"
               name="password"
               placeholder="Пароль"
             />
             <input
-              className="modal__input password-double"
+              className={classNames(styles.modalInput, styles.passwordDouble)}
               type="password"
               name="password"
               placeholder="Повторите пароль"
             />
-            <button className="modal__btn-signup-ent">
+            <button className={styles.modalBtnSignupEnt}>
               <Link href="/">Зарегистрироваться</Link>
             </button>
           </form>

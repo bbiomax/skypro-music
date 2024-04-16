@@ -4,7 +4,7 @@
   overflow: hidden;
 }
 
-.containerEnter {
+.containerSignup {
   max-width: 100%;
   height: 100vh;
   margin: 0 auto;
@@ -12,20 +12,12 @@
   background-color: rgba(0, 0, 0, 0.85);
 }
 
-.modalBtnEnter:hover {
+.modalBtnSignupEnt:hover {
   background-color: #3f007d;
 }
 
-.modalBtnSignup:hover {
-  background-color: #f4f5f6;
-}
-
-.modalBtnEnter:active {
+.modalBtnSignupEnt:active {
   background-color: #271a58;
-}
-
-.modalBtnSignup:active {
-  background-color: #d9d9d9;
 }
 
 .modalBlock {
@@ -51,7 +43,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 43px 47px 47px 40px;
+  padding: 43px 44px 47px 40px;
 }
 
 .modalFormLogin input:first-child {
@@ -77,6 +69,8 @@
   border-right: none;
   border-bottom: 1px solid #d0cece;
   padding: 8px 1px;
+  margin-right: 3px;
+  margin-bottom: 30px;
 }
 
 .modalInput::-webkit-input-placeholder {
@@ -115,14 +109,14 @@
   color: #d0cece;
 }
 
-.modalBtnEnter {
+.modalBtnSignupEnt {
   width: 278px;
-  height: 52px;
+  height: 62px;
   background-color: #580ea2;
   border-radius: 6px;
-  margin-top: 60px;
-  margin-bottom: 20px;
+  margin-left: 4px;
   border: none;
+  margin-top: 30px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -134,7 +128,7 @@
   justify-content: center;
 }
 
-.modalBtnEnter a {
+.modalBtnSignupEnt a {
   width: 100%;
   height: 100%;
   font-style: normal;
@@ -152,51 +146,4 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-
-.modalBtnSignup {
-  width: 278px;
-  height: 52px;
-  background-color: transparent;
-  border: 1px solid #d0cece;
-  border-radius: 6px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 24px;
-  letter-spacing: -0.05px;
-  color: #000000;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.modalBtnSignup a {
-  width: 100%;
-  height: 100%;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 24px;
-  letter-spacing: -0.05px;
-  color: #000000;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.login {
-  margin-bottom: 30px;
 }
