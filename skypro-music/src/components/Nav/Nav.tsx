@@ -6,34 +6,34 @@ export default function Nav() {
   return (
     <>
     <div className={classNames(styles.mainNav, styles.nav)}>
-      <div className={classNames(styles.navLogo, styles.logo)}
+      <div className={classNames(styles.navLogo, styles.logo)}>
         <Image
-          className="logo__image"
+          className={styles.logoImage}
             src="/img/logo.png"
             alt="Логотип skypro-music"
             width={113}
             height={17}
         />
       </div>
-      <div className="nav__burger burger">
-        <span className="burger__line" />
-        <span className="burger__line" />
-        <span className="burger__line" />
+      <div className={classNames(styles.navBurger, styles.burger)}>
+        <span className={styles.burgerLine} />
+        <span className={styles.burgerLine} />
+        <span className={styles.burgerLine} />
       </div>
-      <div className="nav__menu menu">
-        <ul className="menu__list">
-          <li className="menu__item">
-            <a href="#" className="menu__link">
+      <div className={classNames(styles.navMenu, styles.menu)}>
+        <ul className={styles.menuList}>
+          <li className={styles.menuItem}>
+            <a href="#" className={styles.menuLink}>
               Главное
             </a>
           </li>
-          <li className="menu__item">
-            <a href="#" className="menu__link">
+          <li className={styles.menuItem}>
+            <a href="#" className={styles.menuLink}>
               Мой плейлист
             </a>
           </li>
-          <li className="menu__item">
-            <a href="../signin.html" className="menu__link">
+          <li className={styles.menuItem}>
+            <a href="../signin.html" className={styles.menuLink}>
               Войти
             </a>
           </li>
