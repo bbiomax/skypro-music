@@ -6,7 +6,12 @@ import classNames from "classnames";
 import { trackType } from "@/types";
 
 export default async function Centerblock() {
-  const tracksData: trackType[] = await getTracks();
+  let tracksData: trackType[];
+  try {
+    tracksData = await getTracks();
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
 
   return (
     <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
