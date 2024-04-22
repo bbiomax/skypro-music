@@ -6,6 +6,7 @@
   border: 1px solid #ffffff;
   border-radius: 60px;
   padding: 6px 20px;
+  margin-right: 10px;
 }
 
 ._btnText:hover {
@@ -18,4 +19,24 @@
   border-color: #ad61ff;
   color: #ad61ff;
   cursor: pointer;
+}
+
+.filterDropdown {
+  position: relative;
+}
+
+.dropdownList {
+  position: absolute;
+  width: 248px;
+  height: 305;
+  background: #313131;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 34px;
+
+  top: 30px;
+  /* left: -160px; */
+  right: -80px;
 }

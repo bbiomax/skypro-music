@@ -26,14 +26,17 @@ export default function FilterItem({
       >
         {title}
       </div>
-      {isOpened && (
-        // тут надо для ul и li добавить стили для правильного отображения!
-        <ul>
-          {list.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      )}
+      <div className={styles.filterDropdown}>
+        {isOpened && (
+          <ul className={styles.dropdownList}>
+            {list.map((item) => (
+              <li className={styles.dropdownItem} key={item}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </>
   );
 }
