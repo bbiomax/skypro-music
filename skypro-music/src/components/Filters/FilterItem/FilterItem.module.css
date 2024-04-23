@@ -40,3 +40,8 @@
   /* left: -160px; */
   right: -80px;
 }
+
+.active {
+  color: #9A48F1;
+  border-color: #9A48F1;
+}

@@ -21,7 +21,9 @@ export default function FilterItem({
         className={classNames(
           styles.filterButton,
           styles.buttonAuthor,
-          styles._btnText
+          styles._btnText, {
+            [styles.active]: isOpened,
+          }
         )}
       >
         {title}
