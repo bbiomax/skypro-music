@@ -4,14 +4,29 @@ import Track from "../Track/Track";
 import styles from "./Centerblock.module.css";
 import classNames from "classnames";
 import { trackType } from "@/types";
+import { useEffect, useState } from "react";
+import { error } from "console";
 
-export default async function Centerblock() {
-  let tracksData: trackType[];
-  try {
-    tracksData = await getTracks();
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+type playlistType = {
+  setTrack: (param: trackType) => void;
+};
+
+export default function Centerblock({ setTrack }: playlistType) {
+  // let tracksData: trackType[];
+  // try {
+  //   tracksData = await getTracks();
+  // } catch (error: any) {
+  //   throw new Error(error.message);
+  // }
+
+  const [tracksData, setTracksData] = useState<trackType[]>([]);
+  useEffect(() => {
+    getTracks()
+      .then((data: trackType[]) => setTracksData(data))
+      .catch((error: any) => {
+        throw new Error(error.message);
+      });
+  }, []);
 
   return (
     <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
@@ -53,6 +68,7 @@ export default async function Centerblock() {
         <div className={classNames(styles.contentPlaylist, styles.playlist)}>
           {tracksData.map((trackData) => (
             <Track
+              onClick={() => setTrack(trackData)}
               key={trackData.id}
               name={trackData.name}
               author={trackData.author}

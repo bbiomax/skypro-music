@@ -1,10 +1,21 @@
+"use client";
+
+import { useRef } from "react";
 import styles from "./Bar.module.css";
 import classNames from "classnames";
+import { trackType } from "@/types";
 
-export default function Bar() {
+type PlayerType = {
+  track: trackType;
+}
+
+export default function Bar({track}: PlayerType) {
+  const audioRef = useRef<null | HTMLAudioElement>(null);
+
   return (
     <div className={styles.bar}>
       <div className={styles.barContent}>
+        <audio ref={audioRef} src={track.track_file}></audio>
         <div className={styles.barPlayerProgress} />
         <div className={styles.barPlayerBlock}>
           <div className={classNames(styles.barPlayer, styles.player)}>
@@ -24,18 +35,24 @@ export default function Bar() {
                   <use xlinkHref="img/icon/sprite.svg#icon-next" />
                 </svg>
               </div>
-              <div className={classNames(styles.playerBtnRepeat, styles._btnIcon)}>
+              <div
+                className={classNames(styles.playerBtnRepeat, styles._btnIcon)}
+              >
                 <svg className={styles.playerBtnRepeatSvg}>
                   <use xlinkHref="img/icon/sprite.svg#icon-repeat" />
                 </svg>
               </div>
-              <div className={classNames(styles.playerBtnShuffle, styles._btnIcon)}>
+              <div
+                className={classNames(styles.playerBtnShuffle, styles._btnIcon)}
+              >
                 <svg className={styles.playerBtnShuffleSvg}>
                   <use xlinkHref="img/icon/sprite.svg#icon-shuffle" />
                 </svg>
               </div>
             </div>
-            <div className={classNames(styles.playerTrackPlay, styles.trackPlay)}>
+            <div
+              className={classNames(styles.playerTrackPlay, styles.trackPlay)}
+            >
               <div className={styles.trackPlayContain}>
                 <div className={styles.trackPlayImage}>
                   <svg className={styles.trackPlaySvg}>
@@ -54,12 +71,19 @@ export default function Bar() {
                 </div>
               </div>
               <div className={styles.trackPlayLikeDis}>
-                <div className={classNames(styles.trackPlayLike, styles._btnIcon)}>
+                <div
+                  className={classNames(styles.trackPlayLike, styles._btnIcon)}
+                >
                   <svg className={styles.trackPlayLikeSvg}>
                     <use xlinkHref="img/icon/sprite.svg#icon-like" />
                   </svg>
                 </div>
-                <div className={classNames(styles.trackPlayDislike, styles._btnIcon)}>
+                <div
+                  className={classNames(
+                    styles.trackPlayDislike,
+                    styles._btnIcon
+                  )}
+                >
                   <svg className={styles.trackPlayDislikeSvg}>
                     <use xlinkHref="img/icon/sprite.svg#icon-dislike" />
                   </svg>
