@@ -1,8 +1,18 @@
+import { getTracks } from "@/api/tracks";
+import Filters from "../Filters/Filters";
 import Track from "../Track/Track";
 import styles from "./Centerblock.module.css";
 import classNames from "classnames";
+import { trackType } from "@/types";
 
-export default function Centerblock() {
+export default async function Centerblock() {
+  let tracksData: trackType[];
+  try {
+    tracksData = await getTracks();
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+
   return (
     <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
       <div className={classNames(styles.centerblockSearch, styles.search)}>
@@ -17,19 +27,23 @@ export default function Centerblock() {
         />
       </div>
       <h2 className={styles.centerblockH2}>Треки</h2>
-      <div className={classNames(styles.centerblockFilter, styles.filter)}>
-        <div className={styles.filterTitle}>Искать по:</div>
-        <div className={classNames(styles.filterButton, styles.buttonAuthor, styles._btnText)}>
-          исполнителю
-        </div>
-        <div className={classNames(styles.filterButton, styles.buttonYear, styles._btnText)}>году выпуска</div>
-        <div className={classNames(styles.filterButton, styles.buttonGenre, styles._btnText)}>жанру</div>
-      </div>
-      <div className={classNames(styles.centerblockContent, styles.playlistContent)}>
+      <Filters />
+      <div
+        className={classNames(
+          styles.centerblockContent,
+          styles.playlistContent
+        )}
+      >
         <div className={classNames(styles.contentTitle, styles.playlistTitle)}>
-          <div className={classNames(styles.playlistTitleCol, styles.col1)}>Трек</div>
-          <div className={classNames(styles.playlistTitleCol, styles.col2)}>Исполнитель</div>
-          <div className={classNames(styles.playlistTitleCol, styles.col3)}>Альбом</div>
+          <div className={classNames(styles.playlistTitleCol, styles.col1)}>
+            Трек
+          </div>
+          <div className={classNames(styles.playlistTitleCol, styles.col2)}>
+            Исполнитель
+          </div>
+          <div className={classNames(styles.playlistTitleCol, styles.col3)}>
+            Альбом
+          </div>
           <div className={classNames(styles.playlistTitleCol, styles.col4)}>
             <svg className={styles.playlistTitleSvg}>
               <use xlinkHref="img/icon/sprite.svg#icon-watch" />
@@ -37,7 +51,14 @@ export default function Centerblock() {
           </div>
         </div>
         <div className={classNames(styles.contentPlaylist, styles.playlist)}>
-          <Track />
+          {tracksData.map((trackData) => (
+            <Track
+              key={trackData.id}
+              name={trackData.name}
+              author={trackData.author}
+              album={trackData.album}
+            />
+          ))}
         </div>
       </div>
     </div>
