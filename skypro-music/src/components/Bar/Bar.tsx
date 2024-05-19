@@ -14,7 +14,19 @@ export default function Bar({ track }: PlayerType) {
   const audioRef = useRef<null | HTMLAudioElement>(null);
 
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [isLoop, setIsLoop] = useState(false);
+  const [volume, setVolume] = useState(0.5);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  const handleLoop = () => {
+    setIsLoop((prev) => !prev);
+  };
 
   const duration = audioRef.current?.duration;
 
@@ -23,17 +35,33 @@ export default function Bar({ track }: PlayerType) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        play();
       }
     }
     setIsPlaying(!isPlaying);
+  };
+
+  const play = () => {
+    audioRef.current?.play();
   };
 
   useEffect(() => {
     audioRef.current?.addEventListener("timeupdate", () =>
       setCurrentTime(audioRef.current!.currentTime)
     );
+    play();
   }, []);
+
+  useEffect(() => {
+    if (isLoop) {
+      audioRef.current?.addEventListener("ended", play);
+    } else {
+      audioRef.current?.removeEventListener("ended", play);
+    }
+    // return () => {
+    //   audioRef.current?.removeEventListener("ended", play);
+    // }
+  }, [isLoop]);
 
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
@@ -78,7 +106,10 @@ export default function Bar({ track }: PlayerType) {
                 </svg>
               </div>
               <div
-                className={classNames(styles.playerBtnRepeat, styles._btnIcon)}
+                onClick={handleLoop}
+                className={classNames(styles.playerBtnRepeat, styles._btnIcon, {
+                  [styles._btnIcon_active]: isLoop,
+                })}
               >
                 <svg className={styles.playerBtnRepeatSvg}>
                   <use xlinkHref="img/icon/sprite.svg#icon-repeat" />
@@ -145,6 +176,13 @@ export default function Bar({ track }: PlayerType) {
                   className={classNames(styles.volumeProgressLine, styles._btn)}
                   type="range"
                   name="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={volume}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setVolume(Number(e.target.value))
+                  }
                 />
               </div>
             </div>
