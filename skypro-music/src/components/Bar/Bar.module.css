@@ -320,3 +320,12 @@
 .volumeProgressLine {
   width: 109px;
 }
+
+.trackTime {
+  position: absolute;
+  right: 20px;
+  bottom: 90px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #696969;
+}

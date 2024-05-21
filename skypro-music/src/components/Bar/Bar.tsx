@@ -30,6 +30,17 @@ export default function Bar({ track }: PlayerType) {
 
   const duration = audioRef.current?.duration;
 
+  const currentMinutes = Math.floor(currentTime / 60);
+  const currentSeconds = Math.floor(currentTime % 60);
+  const durationMinutes = Math.floor(Number(duration) / 60);
+  const durationSeconds = Math.floor(Number(duration) % 60);
+  const currentTimeFormatted = `${currentMinutes}:${
+    currentSeconds < 10 ? "0" + currentSeconds : currentSeconds
+  }`;
+  const durationFormatted = `${durationMinutes}:${
+    durationSeconds < 10 ? "0" + durationSeconds : durationSeconds
+  }`;
+
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -80,6 +91,9 @@ export default function Bar({ track }: PlayerType) {
           step={0.01}
           onChange={handleSeek}
         />
+        <div className={styles.trackTime}>
+          {currentTimeFormatted} / {durationFormatted}
+        </div>
         <div className={styles.barPlayerBlock}>
           <div className={classNames(styles.barPlayer, styles.player)}>
             <div className={styles.playerControls}>

@@ -1,0 +1,34 @@
+.styledProgressInput {
+  height: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  background: #2e2e2e;
+}
+
+.styledProgressInput::-webkit-slider-runnable-track {
+  background: #B672FF;
+}
+
+.styledProgressInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 34px;
+  width: 34px;
+  background-color: #fff;
+  opacity: 10%;
+  border-radius: 50%;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.styledProgressInput::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background-color: #b672ff;
+  border-radius: 50%;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
