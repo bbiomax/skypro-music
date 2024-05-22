@@ -15,21 +15,14 @@ export default function ProgressBar({
   onChange,
 }: ProgressBarType) {
   return (
-    <>
-      {/* <input
-        className={styles.styledProgressInput}
-        type="range"
-        min="0"
-        max={max}
-        value={value}
-        step={step}
-        onChange={onChange}
-      /> */}
-      <div className={styles.progressBar}>
-        <div className={styles.progressThumb}/>
-        <div className={styles.progressTrackBefore} style={{width: value + '%'}}/>
-        <div className={styles.progressTrackAfter}/>
-      </div>
-    </>
+    <input
+      className={styles.styledProgressInput}
+      type="range"
+      min="0"
+      max={max}
+      value={value}
+      step={step}
+      onChange={onChange}
+    />
   );
 }
