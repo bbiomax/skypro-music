@@ -1,4 +1,4 @@
-.styledProgressInput {
+/* .styledProgressInput {
   height: 5px;
   -webkit-appearance: none;
   appearance: none;
@@ -9,7 +9,8 @@
 }
 
 .styledProgressInput::-webkit-slider-runnable-track {
-  background: #B672FF;
+  background: #b672ff;
+  height: 5px;
 }
 
 .styledProgressInput::-webkit-slider-thumb {
@@ -31,4 +32,27 @@
   border-radius: 50%;
   border: none;
   transition: 0.2s ease-in-out;
+} */
+
+.progressBar {
+  width: 100%;
+  height: 5px;
+  background: #2e2e2e;
+}
+
+.progressThumb {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  background: #fff;
+  opacity: 10%;
+  border-radius: 50%;
+  bottom: 58px;
+  left: 50%;
+}
+
+.progressTrackBefore {
+  height: 5px;
+  background: #b672ff;
+  width: 50%;
 }
