@@ -128,7 +128,7 @@
   cursor: pointer;
 }
 
-._btnIcon:active svg {
+._btnIcon_active svg {
   fill: transparent;
   stroke: #ffffff;
   cursor: pointer;
@@ -319,4 +319,47 @@
 
 .volumeProgressLine {
   width: 109px;
+}
+
+.volumeProgressLine {
+  height: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  background: #797979;
+}
+
+/* .volumeProgressLine::-webkit-slider-runnable-track {
+  background: #b672ff;
+} */
+
+.volumeProgressLine::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 12px;
+  width: 12px;
+  background-color: #1A1A1A;
+  border-radius: 50%;
+  border: 2px solid white;
+  transition: 0.2s ease-in-out;
+}
+
+.volumeProgressLine::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background-color: #b672ff;
+  border-radius: 50%;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.trackTime {
+  position: absolute;
+  right: 20px;
+  bottom: 90px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #696969;
 }
