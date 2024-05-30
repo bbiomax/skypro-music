@@ -5,12 +5,15 @@ import styles from "./Bar.module.css";
 import classNames from "classnames";
 import { trackType } from "@/types";
 import ProgressBar from "../ProgressBar/ProgressBar";
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setIsShuffle, setNextTrack } from "@/store/features/playlistSlice";
 
 export default function Bar() {
   const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
 
   const audioRef = useRef<null | HTMLAudioElement>(null);
+
+  const dispatch = useAppDispatch();
 
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -56,11 +59,14 @@ export default function Bar() {
   };
 
   useEffect(() => {
-    audioRef.current?.addEventListener("timeupdate", () =>
-      setCurrentTime(audioRef.current!.currentTime)
-    );
-    play();
-  }, []);
+    if (audioRef.current) {
+      audioRef.current?.addEventListener("timeupdate", () => {
+        console.log("1");
+        setCurrentTime(audioRef.current!.currentTime);
+      });
+      audioRef.current?.play();
+    }
+  }, [audioRef.current]);
 
   useEffect(() => {
     if (isLoop) {
@@ -115,7 +121,10 @@ export default function Bar() {
                       />
                     </svg>
                   </div>
-                  <div className={styles.playerBtnNext}>
+                  <div
+                    onClick={() => dispatch(setNextTrack())}
+                    className={styles.playerBtnNext}
+                  >
                     <svg className={styles.playerBtnNextSvg}>
                       <use xlinkHref="img/icon/sprite.svg#icon-next" />
                     </svg>
@@ -135,6 +144,7 @@ export default function Bar() {
                     </svg>
                   </div>
                   <div
+                    onClick={() => dispatch(setIsShuffle())}
                     className={classNames(
                       styles.playerBtnShuffle,
                       styles._btnIcon
@@ -159,12 +169,14 @@ export default function Bar() {
                     </div>
                     <div className={styles.trackPlayAuthor}>
                       <a className={styles.trackPlayAuthorLink} href="http://">
-                        Ты та...
+                        {/* Ты та... */}
+                        {currentTrack?.name}
                       </a>
                     </div>
                     <div className={styles.trackPlayAlbum}>
                       <a className={styles.trackPlayAlbumLink} href="http://">
-                        Баста
+                        {/* Баста */}
+                        {currentTrack?.author}
                       </a>
                     </div>
                   </div>

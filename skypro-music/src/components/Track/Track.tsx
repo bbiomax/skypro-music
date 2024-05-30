@@ -3,7 +3,8 @@
 import { trackType } from "@/types";
 import styles from "./Track.module.css";
 import { setCurrentTrack } from "@/store/features/playlistSlice";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import classNames from "classnames";
 
 type TrackType = {
   track: trackType;
@@ -11,17 +12,23 @@ type TrackType = {
 };
 
 export default function Track({ track, tracksData }: TrackType) {
-  const { name, author, album } = track;
+  const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
+  const { name, author, album, id } = track;
+  const isPlaying = currentTrack?.id === id;
   const dispatch = useAppDispatch();
+  const handleTrackClick = () => {
+    dispatch(setCurrentTrack({ track, tracksData }));
+  };
 
   return (
-    <div
-      onClick={() => dispatch(setCurrentTrack(track))}
-      className={styles.playlistItem}
-    >
+    <div onClick={handleTrackClick} className={styles.playlistItem}>
       <div className={styles.playlistTrack}>
         <div className={styles.trackTitle}>
-          <div className={styles.trackTitleImage}>
+          <div
+            className={classNames(styles.trackTitleImage, {
+              [styles.trackTitleImageActive]: isPlaying,
+            })}
+          >
             <svg className={styles.trackTitleSvg}>
               <use xlinkHref="img/icon/sprite.svg#icon-note" />
             </svg>

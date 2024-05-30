@@ -51,6 +51,20 @@
   margin-right: 17px;
 }
 
+.trackTitleImageActive {
+  position: relative;
+}
+
+.trackTitleImageActive::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  margin: auto;
+  background: #f50ae9;
+  border-radius: 50%;
+}
+
 .trackTitleSvg {
   width: 18px;
   height: 17px;
