@@ -42,6 +42,19 @@ const playlistSlice = createSlice({
         state.currentTrack = newTrack;
       }
     },
+    setPrevTrack: (state) => {
+      // вызывать через dispatch на кнопке предыдущего трека
+      const playlist = state.isShuffle
+        ? state.shuffledPlaylist
+        : state.playlist;
+      const currentTrackIndex = playlist.findIndex(
+        (track) => track.id === state.currentTrack?.id
+      );
+      const newTrack = playlist[currentTrackIndex - 1];
+      if (newTrack) {
+        state.currentTrack = newTrack;
+      }
+    },
     setIsShuffle: (state) => {
       // вызывать на кнопке перемешивания
       state.isShuffle = !state.isShuffle;
@@ -49,6 +62,6 @@ const playlistSlice = createSlice({
   },
 });
 
-export const { setCurrentTrack, setNextTrack, setIsShuffle } =
+export const { setCurrentTrack, setNextTrack, setPrevTrack, setIsShuffle } =
   playlistSlice.actions;
 export const playlistReducer = playlistSlice.reducer;
