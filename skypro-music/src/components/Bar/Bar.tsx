@@ -6,7 +6,11 @@ import classNames from "classnames";
 import { trackType } from "@/types";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setIsShuffle, setNextTrack, setPrevTrack } from "@/store/features/playlistSlice";
+import {
+  setIsShuffle,
+  setNextTrack,
+  setPrevTrack,
+} from "@/store/features/playlistSlice";
 
 export default function Bar() {
   const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
@@ -14,6 +18,7 @@ export default function Bar() {
   const audioRef = useRef<null | HTMLAudioElement>(null);
 
   const dispatch = useAppDispatch();
+  const isShuffle = useAppSelector((state) => state.playlist.isShuffle);
 
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -104,7 +109,10 @@ export default function Bar() {
             <div className={styles.barPlayerBlock}>
               <div className={classNames(styles.barPlayer, styles.player)}>
                 <div className={styles.playerControls}>
-                  <div onClick={() => dispatch(setPrevTrack())} className={styles.playerBtnPrev}>
+                  <div
+                    onClick={() => dispatch(setPrevTrack())}
+                    className={styles.playerBtnPrev}
+                  >
                     <svg className={styles.playerBtnPrevSvg}>
                       <use xlinkHref="img/icon/sprite.svg#icon-prev" />
                     </svg>
@@ -149,7 +157,7 @@ export default function Bar() {
                       styles.playerBtnShuffle,
                       styles._btnIcon,
                       {
-                        [styles._btnIcon_active]: setIsShuffle(),
+                        [styles._btnIcon_active]: isShuffle,
                       }
                     )}
                   >
