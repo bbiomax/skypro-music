@@ -19,7 +19,7 @@ export default function Bar() {
 
   const dispatch = useAppDispatch();
   const isShuffle = useAppSelector((state) => state.playlist.isShuffle);
-  const isPlaying = useAppSelector((state) => state.playlist.isPlaying)
+  const isPlaying = useAppSelector((state) => state.playlist.isPlaying);
 
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isLoop, setIsLoop] = useState(false);
@@ -82,6 +82,16 @@ export default function Bar() {
     //   audioRef.current?.removeEventListener("ended", play);
     // }
   }, [isLoop]);
+
+  useEffect(() => {
+    const handleAudioEnded = () => {
+      dispatch(setNextTrack());
+    };
+    audioRef.current?.addEventListener("ended", handleAudioEnded);
+    return () => {
+      audioRef.current?.removeEventListener("ended", handleAudioEnded);
+    };
+  }, [audioRef, dispatch]);
 
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
