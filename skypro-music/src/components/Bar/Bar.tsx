@@ -3,10 +3,10 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styles from "./Bar.module.css";
 import classNames from "classnames";
-import { trackType } from "@/types";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import {
+  setIsPlaying,
   setIsShuffle,
   setNextTrack,
   setPrevTrack,
@@ -19,9 +19,9 @@ export default function Bar() {
 
   const dispatch = useAppDispatch();
   const isShuffle = useAppSelector((state) => state.playlist.isShuffle);
+  const isPlaying = useAppSelector((state) => state.playlist.isPlaying)
 
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isLoop, setIsLoop] = useState(false);
   const [volume, setVolume] = useState(0.5);
 
@@ -56,7 +56,7 @@ export default function Bar() {
         play();
       }
     }
-    setIsPlaying(!isPlaying);
+    dispatch(setIsPlaying());
   };
 
   const play = () => {
@@ -66,7 +66,6 @@ export default function Bar() {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current?.addEventListener("timeupdate", () => {
-        console.log("1");
         setCurrentTime(audioRef.current!.currentTime);
       });
       audioRef.current?.play();
