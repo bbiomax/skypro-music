@@ -14,7 +14,8 @@ type TrackType = {
 export default function Track({ track, tracksData }: TrackType) {
   const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
   const { name, author, album, id } = track;
-  const isPlaying = currentTrack?.id === id;
+  // const isPlaying = currentTrack?.id === id;
+  const isPlaying = useAppSelector((state) => state.playlist.isPlaying);
   const dispatch = useAppDispatch();
   const handleTrackClick = () => {
     dispatch(setCurrentTrack({ track, tracksData }));
@@ -26,7 +27,10 @@ export default function Track({ track, tracksData }: TrackType) {
         <div className={styles.trackTitle}>
           <div
             className={classNames(styles.trackTitleImage, {
-              [styles.trackTitleImageActive]: isPlaying,
+              [styles.trackTitleImageActive]:
+                isPlaying && currentTrack?.id === id,
+              [styles.trackTitleImageNotActive]:
+                !isPlaying && currentTrack?.id === id,
             })}
           >
             <svg className={styles.trackTitleSvg}>
