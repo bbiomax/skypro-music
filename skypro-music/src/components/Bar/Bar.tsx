@@ -78,20 +78,19 @@ export default function Bar() {
     } else {
       audioRef.current?.removeEventListener("ended", play);
     }
-    // return () => {
-    //   audioRef.current?.removeEventListener("ended", play);
-    // }
   }, [isLoop]);
 
+  const handleAudioEnded = () => {
+    dispatch(setNextTrack());
+    setCurrentTime(0);
+  };
+
   useEffect(() => {
-    const handleAudioEnded = () => {
-      dispatch(setNextTrack());
-    };
     audioRef.current?.addEventListener("ended", handleAudioEnded);
     return () => {
       audioRef.current?.removeEventListener("ended", handleAudioEnded);
     };
-  }, [audioRef, dispatch]);
+  }, [audioRef, handleAudioEnded]);
 
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
