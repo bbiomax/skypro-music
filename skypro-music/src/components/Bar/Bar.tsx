@@ -90,7 +90,7 @@ export default function Bar() {
     return () => {
       audioRef.current?.removeEventListener("ended", handleAudioEnded);
     };
-  }, [audioRef, handleAudioEnded]);
+  }, [currentTrack, audioRef]); //audioRef, handleAudioEnded
 
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
