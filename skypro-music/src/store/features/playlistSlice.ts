@@ -14,7 +14,7 @@ const initialState: PlaylistStateType = {
   playlist: [],
   shuffledPlaylist: [],
   isShuffle: false,
-  isPlaying: true,
+  isPlaying: false,
 };
 
 const playlistSlice = createSlice({
