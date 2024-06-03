@@ -92,6 +92,10 @@ export default function Bar() {
     };
   }, [currentTrack, audioRef]); //audioRef, handleAudioEnded
 
+  useEffect(() => {
+    dispatch(setIsPlaying());
+  }, [currentTrack]);
+
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
       setCurrentTime(Number(event.target.value));
