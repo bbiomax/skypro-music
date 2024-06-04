@@ -93,8 +93,13 @@ export default function Bar() {
   }, [currentTrack, audioRef]); //audioRef, handleAudioEnded
 
   useEffect(() => {
-    dispatch(setIsPlaying());
-  }, [currentTrack]);
+    // dispatch(setIsPlaying());
+    isPlaying ? audioRef.current?.play() : audioRef.current?.pause();
+  }, [currentTrack, isPlaying]);
+
+  // useEffect(() => {
+  //   isPlaying ? audioRef.current?.play() : audioRef.current?.pause();
+  // }, [isPlaying]);
 
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
