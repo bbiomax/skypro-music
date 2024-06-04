@@ -1,18 +1,38 @@
+"use client";
+
+import { trackType } from "@/types";
 import styles from "./Track.module.css";
+import { setCurrentTrack } from "@/store/features/playlistSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import classNames from "classnames";
 
 type TrackType = {
-  name: string;
-  author: string;
-  album: string;
-  onClick: () => void;
+  track: trackType;
+  tracksData: trackType[];
 };
 
-export default function Track({ name, author, album, onClick }: TrackType) {
+export default function Track({ track, tracksData }: TrackType) {
+  const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
+  const { name, author, album, id } = track;
+  // const isPlaying = currentTrack?.id === id;
+  const isPlaying = useAppSelector((state) => state.playlist.isPlaying);
+  const dispatch = useAppDispatch();
+  const handleTrackClick = () => {
+    dispatch(setCurrentTrack({ track, tracksData }));
+  };
+
   return (
-    <div onClick={onClick} className={styles.playlistItem}>
+    <div onClick={handleTrackClick} className={styles.playlistItem}>
       <div className={styles.playlistTrack}>
         <div className={styles.trackTitle}>
-          <div className={styles.trackTitleImage}>
+          <div
+            className={classNames(styles.trackTitleImage, {
+              [styles.trackTitleImageActive]:
+                isPlaying && currentTrack?.id === id,
+              [styles.trackTitleImageNotActive]:
+                !isPlaying && currentTrack?.id === id,
+            })}
+          >
             <svg className={styles.trackTitleSvg}>
               <use xlinkHref="img/icon/sprite.svg#icon-note" />
             </svg>
@@ -24,14 +44,10 @@ export default function Track({ name, author, album, onClick }: TrackType) {
           </div>
         </div>
         <div className={styles.trackAuthor}>
-          <span className={styles.trackAuthorLink}>
-            {author}
-          </span>
+          <span className={styles.trackAuthorLink}>{author}</span>
         </div>
         <div className={styles.trackAlbum}>
-          <span className={styles.trackAlbumLink}>
-            {album}
-          </span>
+          <span className={styles.trackAlbumLink}>{album}</span>
         </div>
         <div className={styles.trackTime}>
           <svg className={styles.trackTimeSvg}>
