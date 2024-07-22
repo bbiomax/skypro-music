@@ -1,17 +1,22 @@
-import { getTracks } from "@/api/tracks";
+import { trackType } from "@/types";
 import Filters from "../Filters/Filters";
 import Track from "../Track/Track";
 import styles from "./Centerblock.module.css";
 import classNames from "classnames";
-import { trackType } from "@/types";
 
-export default async function Centerblock() {
-  let tracksData: trackType[];
-  try {
-    tracksData = await getTracks();
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+export type CenterblockType = {
+  tracksData: trackType[];
+  id?: "1" | "2" | "3";
+};
+
+const playlistTitles = {
+  "1": "Плейлист дня",
+  "2": "100 танцевальных хитов",
+  "3": "Инди-заряд",
+};
+
+export default async function Centerblock({ tracksData, id }: CenterblockType) {
+  const playlistTitle = id ? playlistTitles[id] : "Треки";
 
   return (
     <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
@@ -26,8 +31,8 @@ export default async function Centerblock() {
           name="search"
         />
       </div>
-      <h2 className={styles.centerblockH2}>Треки</h2>
-      <Filters />
+      <h2 className={styles.centerblockH2}>{playlistTitle}</h2>
+      <Filters tracksData={tracksData} />
       <div
         className={classNames(
           styles.centerblockContent,

@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./Nav.module.css";
 import classNames from "classnames";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Nav() {
   const [isBurgerOpened, setIsBurgerOpened] = useState<boolean>(false);
@@ -11,7 +12,7 @@ export default function Nav() {
   return (
     <>
       <div className={classNames(styles.mainNav, styles.nav)}>
-        <div className={classNames(styles.navLogo, styles.logo)}>
+        <Link className={classNames(styles.navLogo, styles.logo)} href="/">
           <Image
             className={styles.logoImage}
             src="/img/logo.png"
@@ -19,7 +20,7 @@ export default function Nav() {
             width={113}
             height={17}
           />
-        </div>
+        </Link>
         <div
           onClick={() => setIsBurgerOpened((prev) => !prev)}
           className={classNames(styles.navBurger, styles.burger)}

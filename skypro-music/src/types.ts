@@ -18,3 +18,8 @@ export type trackType = {
   track_file: string;
   stared_user: userType[];
 };
+
+export type PlaylistResponse = {
+  id: number;
+  items: trackType[];
+};
