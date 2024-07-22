@@ -18,7 +18,7 @@ export default async function Home() {
       <div className="container">
         <main className="main">
           <Nav />
-          <Centerblock tracksData={tracksData} />
+          <Centerblock tracksData={tracksData} title="Треки" />
           <Sidebar />
         </main>
         <Bar />

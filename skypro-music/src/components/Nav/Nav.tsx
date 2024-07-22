@@ -33,19 +33,19 @@ export default function Nav() {
           <div className={classNames(styles.navMenu, styles.menu)}>
             <ul className={styles.menuList}>
               <li className={styles.menuItem}>
-                <a href="#" className={styles.menuLink}>
+                <Link href="/" className={styles.menuLink}>
                   Главное
-                </a>
+                </Link>
               </li>
               <li className={styles.menuItem}>
-                <a href="#" className={styles.menuLink}>
+                <Link href="/favourite" className={styles.menuLink}>
                   Мой плейлист
-                </a>
+                </Link>
               </li>
               <li className={styles.menuItem}>
-                <a href="../signin.html" className={styles.menuLink}>
+                <Link href="/signin" className={styles.menuLink}>
                   Войти
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

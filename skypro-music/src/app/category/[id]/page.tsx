@@ -9,8 +9,20 @@ import { getPlaylist } from "@/api/tracks";
 
 type CategoryProps = { params: { id: string } };
 
+const playlistTitles = {
+  "1": "Плейлист дня",
+  "2": "100 танцевальных хитов",
+  "3": "Инди-заряд",
+};
+
+type PlaylistType = "1" | "2" | "3";
+
 export default async function Playlist({ params }: CategoryProps) {
   let tracksData: PlaylistResponse;
+  const playlistTitle = params.id
+    ? playlistTitles[params.id as PlaylistType]
+    : "Треки";
+
   try {
     tracksData = await getPlaylist(params.id);
   } catch (error: any) {
@@ -22,10 +34,7 @@ export default async function Playlist({ params }: CategoryProps) {
       <div className="container">
         <main className="main">
           <Nav />
-          <Centerblock
-            tracksData={tracksData.items}
-            id={params.id as CenterblockType["id"]}
-          />
+          <Centerblock tracksData={tracksData.items} title={playlistTitle} />
           <Sidebar />
         </main>
         <Bar />

@@ -19,3 +19,21 @@ export async function getPlaylist(id: string) {
 
   return res.json();
 }
+
+export async function getFavorite(access: string) {
+  const res = await fetch(apiUrl + `/catalog/track/favorite/all/`, {
+    headers: {
+      Authorization: `Bearer ${access}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Ошибка при получении данных");
+  }
+
+  if (res.status === 401) {
+    throw new Error("Ошибка авторизации");
+  }
+  const resJson = await res.json()
+  return resJson.items;
+}

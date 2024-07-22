@@ -6,17 +6,13 @@ import classNames from "classnames";
 
 export type CenterblockType = {
   tracksData: trackType[];
-  id?: "1" | "2" | "3";
+  title: string;
 };
 
-const playlistTitles = {
-  "1": "Плейлист дня",
-  "2": "100 танцевальных хитов",
-  "3": "Инди-заряд",
-};
-
-export default async function Centerblock({ tracksData, id }: CenterblockType) {
-  const playlistTitle = id ? playlistTitles[id] : "Треки";
+export default async function Centerblock({
+  tracksData,
+  title,
+}: CenterblockType) {
 
   return (
     <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
@@ -31,7 +27,7 @@ export default async function Centerblock({ tracksData, id }: CenterblockType) {
           name="search"
         />
       </div>
-      <h2 className={styles.centerblockH2}>{playlistTitle}</h2>
+      <h2 className={styles.centerblockH2}>{title}</h2>
       <Filters tracksData={tracksData} />
       <div
         className={classNames(
