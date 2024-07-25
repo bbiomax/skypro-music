@@ -77,7 +77,7 @@ const playlistSlice = createSlice({
 
     setFilters: (
       state,
-      action: PayloadAction<{ author: string[]; searchValue: string }>
+      action: PayloadAction<{ author?: string[]; searchValue?: string }>
     ) => {
       state.filterOptions = {
         author: action.payload.author || state.filterOptions.author,

@@ -3,6 +3,7 @@ import Filters from "../Filters/Filters";
 import Track from "../Track/Track";
 import styles from "./Centerblock.module.css";
 import classNames from "classnames";
+import { Search } from "@components/Search/Search";
 
 export type CenterblockType = {
   tracksData: trackType[];
@@ -13,20 +14,9 @@ export default async function Centerblock({
   tracksData,
   title,
 }: CenterblockType) {
-
   return (
     <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
-      <div className={classNames(styles.centerblockSearch, styles.search)}>
-        <svg className={styles.searchSvg}>
-          <use xlinkHref="img/icon/sprite.svg#icon-search" />
-        </svg>
-        <input
-          className={styles.searchText}
-          type="search"
-          placeholder="Поиск"
-          name="search"
-        />
-      </div>
+      <Search />
       <h2 className={styles.centerblockH2}>{title}</h2>
       <Filters tracksData={tracksData} />
       <div
