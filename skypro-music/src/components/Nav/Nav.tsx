@@ -5,9 +5,14 @@ import styles from "./Nav.module.css";
 import classNames from "classnames";
 import { useState } from "react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { userType } from "../Sidebar/Sidebar";
 
 export default function Nav() {
   const [isBurgerOpened, setIsBurgerOpened] = useState<boolean>(false);
+  const isAuthenticated = useSelector(
+    (state: userType) => state.user.isAuthenticated
+  );
 
   return (
     <>
@@ -43,9 +48,15 @@ export default function Nav() {
                 </Link>
               </li>
               <li className={styles.menuItem}>
-                <Link href="/signIn" className={styles.menuLink}>
-                  Войти
-                </Link>
+                {isAuthenticated ? (
+                  <Link href="/signIn" className={styles.menuLink}>
+                    Выйти
+                  </Link>
+                ) : (
+                  <Link href="/signIn" className={styles.menuLink}>
+                    Войти
+                  </Link>
+                )}
               </li>
             </ul>
           </div>

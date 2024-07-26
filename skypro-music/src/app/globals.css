@@ -868,3 +868,24 @@ body {
 .volume__progress-line {
   width: 109px;
 }
+
+
+::-webkit-scrollbar {
+  background: #fff;
+  border-radius: 100px;
+  width: 4px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  background: #4B4949;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 100px;
+}

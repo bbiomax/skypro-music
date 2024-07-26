@@ -1,18 +1,31 @@
+"use client"
+
 import classNames from "classnames";
 import styles from "./Sidebar.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+
+export type userType = {
+  user: {
+    username: string;
+    email: string;
+    isAuthenticated: boolean;
+  }
+}
 
 export default function Sidebar() {
+  const username = useSelector((state: userType) => state.user.username)
+
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
       <div className={styles.sidebarPersonal}>
-        <p className={styles.sidebarPersonalName}>Sergey.Ivanov</p>
-        <div className={styles.sidebarIcon}>
+        <p className={styles.sidebarPersonalName}>{username}</p>
+        <Link href={"/signIn"} className={styles.sidebarIcon}>
           <svg>
             <use xlinkHref="img/icon/sprite.svg#logout" />
           </svg>
-        </div>
+        </Link>
       </div>
       <div className={styles.sidebarBlock}>
         <div className={styles.sidebarList}>

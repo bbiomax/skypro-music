@@ -7,9 +7,12 @@ import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { authSignIn } from "@/api/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/features/userSlice";
 
 export default function SignInPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [formInput, setFormInput] = useState({
     email: "",
     password: "",
@@ -21,7 +24,13 @@ export default function SignInPage() {
       return setError("Заполните все поля");
     }
     authSignIn(formInput)
-      .then(() => {
+      .then((res) => {
+        dispatch(
+          setUser({
+            username: res.username,
+            email: res.email,
+          })
+        );
         router.push("/");
       })
       .catch((error) => {
