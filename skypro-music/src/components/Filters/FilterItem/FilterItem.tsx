@@ -3,6 +3,8 @@ import styles from "./FilterItem.module.css";
 import classNames from "classnames";
 import { order } from "../Filters";
 import { useAppSelector } from "@/hooks";
+import { useDispatch } from "react-redux";
+import { setFilters } from "@/store/features/playlistSlice";
 
 type FilterItemType = {
   title: string;
@@ -19,7 +21,13 @@ export default function FilterItem({
   isOpened,
   tracksData,
 }: FilterItemType) {
-  // const optionList = useAppSelector((state) => state.playlist.filterOptions[value])
+  const authorList = useAppSelector(
+    (state) => state.playlist.filterOptions.author
+  );
+  const genreList = useAppSelector(
+    (state) => state.playlist.filterOptions.genre
+  );
+  const dispatch = useDispatch();
 
   const getFilterList = () => {
     if (value !== "order") {
@@ -32,7 +40,35 @@ export default function FilterItem({
     return order;
   };
 
-  const toggleFilter = (item: string) => {};
+  const filterList: { author: string[]; genre: string[] } = {
+    author: authorList,
+    genre: genreList,
+  };
+
+  const toggleFilter = (
+    item: string,
+    filterName: "author" | "genre" | "order"
+  ) => {
+    dispatch(
+      setFilters({
+        ...(filterName === "author" && {
+          author: authorList.includes(item)
+            ? authorList.filter((el) => el !== item)
+            : [...authorList, item],
+        }),
+
+        ...(filterName === "genre" && {
+          genre: genreList.includes(item)
+            ? genreList.filter((el) => el !== item)
+            : [...genreList, item],
+        }),
+
+        ...(filterName === "order" && {
+          order: item,
+        }),
+      })
+    );
+  };
 
   return (
     <>
@@ -54,7 +90,7 @@ export default function FilterItem({
           <ul className={styles.dropdownList}>
             {getFilterList().map((item, index) => (
               <li
-                onClick={() => toggleFilter(item)}
+                onClick={() => toggleFilter(item, value)}
                 key={index}
                 className={styles.dropdownItem}
               >

@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
 import classNames from "classnames";
 import styles from "./Search.module.css";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { setFilters } from "@/store/features/playlistSlice";
 import { useAppDispatch } from "@/hooks";
 
@@ -10,9 +10,9 @@ export function Search() {
   const [value, setValue] = useState("");
   const dispatch = useAppDispatch();
 
-  const handleChangeValue = (val) => {
-    setValue(val);
-    dispatch(setFilters({ searchValue: val }));
+  const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    dispatch(setFilters({ searchValue: e.target.value }));
   };
 
   return (
@@ -21,11 +21,12 @@ export function Search() {
         <use xlinkHref="img/icon/sprite.svg#icon-search" />
       </svg>
       <input
-        onChange={(e) => handleChangeValue(e.target.value)}
+        onChange={handleChangeValue}
         className={styles.searchText}
         type="search"
         placeholder="Поиск"
         name="search"
+        value={value}
       />
     </div>
   );
