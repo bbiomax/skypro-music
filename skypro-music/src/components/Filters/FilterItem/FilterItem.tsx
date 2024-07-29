@@ -32,8 +32,9 @@ export default function FilterItem({
   const getFilterList = () => {
     if (value !== "order") {
       const arr = new Set(
-        tracksData?.map((track: trackType) => track[value]) || []
+        tracksData?.flatMap((track: trackType) => track[value]) || []
       );
+      console.log(Array.from(arr));
       return Array.from(arr);
     }
 
@@ -54,7 +55,7 @@ export default function FilterItem({
     );
   };
 
-  getFilterList();
+  console.log(getFilterList())
 
   return (
     <div className={styles.wrapper}>

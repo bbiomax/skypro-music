@@ -22,20 +22,8 @@ export default function Centerblock({
   isLoading?: boolean;
   isFavorite?: boolean;
 }) {
-  // const dispatch = useAppDispatch();
-  // const [tracks, setTracks] = useState<[] | trackType[]>([]);
-  // const filteredTracks = useAppSelector(
-  //   (state) => state.playlist.filteredTracks
-  // );
 
-  // let tracksData: trackType[];
-
-  // useEffect(() => {
-  //   getTracks().then((tracksData) => {
-  //     setTracks(tracksData);
-  //     dispatch(setInitialTracks({ initialTracks: tracksData }));
-  //   });
-  // }, [dispatch]);
+  console.log("tracks in centerblock " + tracks);
 
   return (
     <div

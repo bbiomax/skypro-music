@@ -10,19 +10,9 @@ type CategoryProps = {
 };
 
 export default async function CategoryPage({ params }: CategoryProps) {
+  console.log("params " + params);
   const tracksData = await getPlaylistTracks(params.id);
+  console.log("tracksData " + tracksData);
 
-  return (
-    <div className="wrapper">
-      <div className="container">
-        <main className="main">
-          <Nav />
-          <Centerblock tracks={tracksData} playlist={tracksData} />
-          <Sidebar />
-        </main>
-        <Bar />
-        <footer className="footer" />
-      </div>
-    </div>
-  );
+  return <Centerblock tracks={tracksData} playlist={tracksData} />;
 }
