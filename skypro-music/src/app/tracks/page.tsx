@@ -20,6 +20,8 @@ export default function MainTracksPage() {
     setIsLoading(true);
     getTracks()
       .then((tracksData) => {
+        console.log(tracksData);
+
         setTracks(tracksData);
         dispatch(setInitialTracks({ initialTracks: tracksData }));
         setIsLoading(false);

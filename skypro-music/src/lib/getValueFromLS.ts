@@ -4,5 +4,5 @@ export function getValueFromLocalStorage(key: string) {
   } catch (error) {
     console.log(error);
     return null;
-  }
+  } 
 }

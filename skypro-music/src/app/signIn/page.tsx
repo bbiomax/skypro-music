@@ -6,16 +6,13 @@ import styles from "./SignIn.module.css";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
-import { authSignIn } from "@/api/auth";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/store/features/userSlice";
 import { signin } from "@/api/signin";
 import { useUser } from "@/hooks/useUser";
 import { getToken } from "@/api/tracks";
+import { userType } from "@/types";
 
 export default function SignInPage() {
   const { login }: any = useUser();
-  const router = useRouter();
   const [formInput, setFormInput] = useState({
     email: "",
     password: "",
@@ -26,12 +23,15 @@ export default function SignInPage() {
     if (!formInput.email.trim() || !formInput.password.trim()) {
       return setError("Заполните все поля");
     }
+    let userData: userType;
+    console.log(formInput);
     await signin(formInput)
       .then((data) => {
-        getToken(formInput).then((tokenData) => {
-          login(data, tokenData);
-        });
-        router.push("/tracks");
+        userData = data;
+        return getToken(formInput);
+      })
+      .then((tokenData) => {
+        login(userData, tokenData);
       })
       .catch((error) => {
         alert(error);

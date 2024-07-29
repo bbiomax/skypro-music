@@ -41,10 +41,10 @@ export default function Bar() {
     setIsLiked(() => {
       const isLikedByUser =
         currentTrack?.isFavorite ||
-        currentTrack?.stared_user.find((u) => u.id === user?.id);
+        currentTrack?.staredUser.find((u) => u._id === user?._id);
       setIsLiked(isLikedByUser);
     });
-  }, [currentTrack, user?.id]);
+  }, [currentTrack, user?._id]);
 
   // have
   useEffect(() => {
@@ -127,12 +127,12 @@ export default function Bar() {
   const handleLikeClick = () => {
     if (currentTrack) {
       isLiked
-        ? setDislike(token.access, currentTrack?.id).then(() => {
+        ? setDislike(token.access, currentTrack?._id).then(() => {
             getTracks().then((data) => {
               dispatch(setInitialTracks({ initialTracks: data }));
             });
           })
-        : setLike(token.access, currentTrack?.id).then(() => {
+        : setLike(token.access, currentTrack?._id).then(() => {
             getTracks().then((data) => {
               dispatch(setInitialTracks({ initialTracks: data }));
             });

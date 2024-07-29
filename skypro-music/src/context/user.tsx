@@ -28,6 +28,10 @@ export const UserProvider = ({ children }: any) => {
     router.push("/tracks");
   }
 
+  function loginUser() {
+    
+  }
+
   function logout() {
     setUser(null);
     localStorage.removeItem("user");

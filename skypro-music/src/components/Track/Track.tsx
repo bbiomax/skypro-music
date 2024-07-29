@@ -22,13 +22,15 @@ type TrackType = {
 
 export default function Track({ track, tracksData, isFavorite }: TrackType) {
   const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
-  const { name, author, album, duration_in_seconds, id } = track;
+  const { name, author, album, duration_in_seconds, _id: id } = track;
   // const isPlaying = currentTrack?.id === id;
   const { isPlaying } = useAppSelector((store) => store.playlist);
   const { user } = useUser();
+  // console.log(user);
+  // console.log(track);
   const token = getValueFromLocalStorage("token");
   const isLikedByUser =
-    isFavorite || track.stared_user.find((u) => u.id === user?.id);
+    isFavorite || track.staredUser.find((u) => u._id === user?._id);
   const dispatch = useAppDispatch();
   const [isLiked, setIsLiked] = useState(!!isLikedByUser);
   const handleTrackClick = () => {
@@ -43,7 +45,7 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
 
   useEffect(() => {
     const isLikedByUser =
-      isFavorite || track.stared_user.find((u) => u.id === user?.id);
+      isFavorite || track.staredUser.find((u) => u._id === user?._id);
     // console.log(isLikedByUser);
     setIsLiked(!!isLikedByUser);
   }, [track]);
@@ -53,7 +55,7 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
       <div className={styles.playlistTrack}>
         <div className={styles.trackTitle}>
           <div className={styles.trackTitleImage}>
-            {currentTrack?.id === track.id && (
+            {currentTrack?._id === track._id && (
               <div
                 className={`${
                   isPlaying ? styles.playingDot : styles.stoppedDot

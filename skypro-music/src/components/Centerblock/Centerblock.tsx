@@ -61,7 +61,7 @@ export default function Centerblock({
         {isLoading ? "Загрузка..." : tracks?.length === 0 ? "Нет треков" : ""}
         {tracks?.map((track) => (
           <Track
-            key={track.id}
+            key={track._id}
             track={track}
             tracksData={playlist}
             isFavorite={isFavorite}

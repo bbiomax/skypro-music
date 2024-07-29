@@ -4,7 +4,7 @@ export type tokenType = {
 }
 
 export type userType = {
-  id: number;
+  _id: number;
   username: string;
   first_name: string;
   last_name: string;
@@ -12,7 +12,7 @@ export type userType = {
 };
 
 export type trackType = {
-  id: number;
+  _id: number;
   name: string;
   author: string;
   release_date: string;
@@ -21,6 +21,6 @@ export type trackType = {
   album: string;
   logo: string | null;
   track_file: string;
-  stared_user: userType[];
+  staredUser: userType[];
   isFavorite?: boolean;
 };
