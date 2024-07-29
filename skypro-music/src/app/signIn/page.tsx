@@ -9,32 +9,32 @@ import { ChangeEvent, useState } from "react";
 import { authSignIn } from "@/api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/features/userSlice";
+import { signin } from "@/api/signin";
+import { useUser } from "@/hooks/useUser";
+import { getToken } from "@/api/tracks";
 
 export default function SignInPage() {
+  const { login }: any = useUser();
   const router = useRouter();
-  const dispatch = useDispatch();
   const [formInput, setFormInput] = useState({
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (!formInput.email.trim() || !formInput.password.trim()) {
       return setError("Заполните все поля");
     }
-    authSignIn(formInput)
-      .then((res) => {
-        dispatch(
-          setUser({
-            username: res.username,
-            email: res.email,
-          })
-        );
-        router.push("/");
+    await signin(formInput)
+      .then((data) => {
+        getToken(formInput).then((tokenData) => {
+          login(data, tokenData);
+        });
+        router.push("/tracks");
       })
       .catch((error) => {
-        setError(error.message);
+        alert(error);
       });
   };
 
@@ -77,7 +77,7 @@ export default function SignInPage() {
               <a>Войти</a>
             </button>
             <button className={styles.modalBtnSignup}>
-              <Link href="/signUp">Зарегистрироваться</Link>
+              <Link href="/signup">Зарегистрироваться</Link>
             </button>
           </div>
         </div>

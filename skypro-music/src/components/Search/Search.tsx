@@ -16,18 +16,21 @@ export function Search() {
   };
 
   return (
-    <div className={classNames(styles.centerblockSearch, styles.search)}>
-      <svg className={styles.searchSvg}>
-        <use xlinkHref="img/icon/sprite.svg#icon-search" />
-      </svg>
-      <input
-        onChange={handleChangeValue}
-        className={styles.searchText}
-        type="search"
-        placeholder="Поиск"
-        name="search"
-        value={value}
-      />
-    </div>
+    <>
+      <div className={classNames(styles.centerblockSearch, styles.search)}>
+        <svg className={styles.searchSvg}>
+          <use xlinkHref="img/icon/sprite.svg#icon-search" />
+        </svg>
+        <input
+          onChange={handleChangeValue}
+          className={styles.searchText}
+          type="search"
+          placeholder="Поиск"
+          name="search"
+          value={value}
+        />
+      </div>
+      <h2 className={styles.centerblockH2}>Треки</h2>
+    </>
   );
 }

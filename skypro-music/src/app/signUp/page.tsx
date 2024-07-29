@@ -6,30 +6,28 @@ import classNames from "classnames";
 import { authSignUp } from "@/api/auth";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { signup } from "@/api/signup";
+import { useUser } from "@/hooks/useUser";
 
 export default function SignUpPage() {
+  const { login }: any = useUser();
   const router = useRouter();
   const [formInput, setFormInput] = useState({
+    email: "",
     username: "",
-    repeatPassword: "",
     password: "",
+    repeatPassword: "",
   });
   const [error, setError] = useState("");
 
-  const handleSignUp = () => {
-    if (
-      !formInput.username.trim() ||
-      !formInput.repeatPassword.trim() ||
-      !formInput.password.trim()
-    ) {
-      return setError("Заполните все поля");
-    }
-    authSignUp({ ...formInput, email: formInput.username })
-      .then(() => {
-        router.push("/signIn");
+  const handleSignUp = async () => {
+    await signup(formInput)
+      .then((data) => {
+        login(data);
+        router.push("/signin");
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 
@@ -43,7 +41,7 @@ export default function SignUpPage() {
       <div className={styles.containerSignup}>
         <div className={styles.modalBlock}>
           <div className={styles.modalFormLogin}>
-            <a href="/">
+            <a href="/tracks">
               <div className={styles.modalLogo}>
                 <Image
                   src="/img/logo_modal.png"
@@ -56,8 +54,15 @@ export default function SignUpPage() {
             <input
               className={classNames(styles.modalInput, styles.login)}
               type="text"
-              name="username"
+              name="email"
               placeholder="Почта"
+              onChange={handleFormInput}
+            />
+            <input
+              className={styles.modalInput}
+              type="text"
+              name="username"
+              placeholder="Введите имя профиля"
               onChange={handleFormInput}
             />
             <input

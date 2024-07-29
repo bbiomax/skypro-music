@@ -1,4 +1,9 @@
-type userType = {
+export type tokenType = {
+  refresh: string,
+  access: string
+}
+
+export type userType = {
   id: number;
   username: string;
   first_name: string;
@@ -17,9 +22,5 @@ export type trackType = {
   logo: string | null;
   track_file: string;
   stared_user: userType[];
-};
-
-export type PlaylistResponse = {
-  id: number;
-  items: trackType[];
+  isFavorite?: boolean;
 };

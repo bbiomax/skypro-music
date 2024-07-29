@@ -11,7 +11,10 @@ type FilterItemType = {
   value: "author" | "genre" | "order";
   handleFilterClick: (newFilter: string) => void;
   isOpened: boolean;
-  tracksData: trackType[];
+  optionList?: string[];
+  selected?: string[] | string;
+  toggleSelected?: (item: string) => void;
+  counter?: number | null;
 };
 
 export default function FilterItem({
@@ -19,15 +22,12 @@ export default function FilterItem({
   title,
   value,
   isOpened,
-  tracksData,
+  optionList = [],
+  selected,
+  counter = 0,
 }: FilterItemType) {
-  const authorList = useAppSelector(
-    (state) => state.playlist.filterOptions.author
-  );
-  const genreList = useAppSelector(
-    (state) => state.playlist.filterOptions.genre
-  );
   const dispatch = useDispatch();
+  const tracksData = useAppSelector((state) => state.playlist.initialTracks);
 
   const getFilterList = () => {
     if (value !== "order") {
@@ -40,66 +40,56 @@ export default function FilterItem({
     return order;
   };
 
-  const filterList: { author: string[]; genre: string[] } = {
-    author: authorList,
-    genre: genreList,
-  };
-
-  const toggleFilter = (
-    item: string,
-    filterName: "author" | "genre" | "order"
-  ) => {
+  const toggleFilter = (item: string) => {
+    if (value === "order") {
+      dispatch(setFilters({ order: item }));
+      return;
+    }
     dispatch(
       setFilters({
-        ...(filterName === "author" && {
-          author: authorList.includes(item)
-            ? authorList.filter((el) => el !== item)
-            : [...authorList, item],
-        }),
-
-        ...(filterName === "genre" && {
-          genre: genreList.includes(item)
-            ? genreList.filter((el) => el !== item)
-            : [...genreList, item],
-        }),
-
-        ...(filterName === "order" && {
-          order: item,
-        }),
+        [value]: optionList.includes(item)
+          ? optionList.filter((el) => el !== item)
+          : [...optionList, item],
       })
     );
   };
 
+  getFilterList();
+
   return (
-    <>
+    <div className={styles.wrapper}>
+      {counter !== 0 && <span className={styles.counter}>{counter}</span>}
       <div
         onClick={() => handleFilterClick(title)}
-        className={classNames(
-          styles.filterButton,
-          styles.buttonAuthor,
-          styles._btnText,
-          {
-            [styles.active]: isOpened,
-          }
-        )}
+        className={
+          !isOpened
+            ? classNames(styles.filterButton, styles.BtnText)
+            : classNames(styles.filterButtonActive, styles.BtnTextActive)
+        }
       >
         {title}
       </div>
-      <div className={styles.filterDropdown}>
-        {isOpened && (
-          <ul className={styles.dropdownList}>
-            {getFilterList().map((item, index) => (
+      {isOpened && (
+        <ul className={styles.filterList}>
+          {getFilterList().map((item) => {
+            const activeClass = selected?.includes(item)
+              ? styles.listActive
+              : "";
+
+            return (
               <li
-                onClick={() => toggleFilter(item, value)}
-                key={index}
-                className={styles.dropdownItem}
+                onClick={() => {
+                  if (toggleFilter) toggleFilter(item);
+                }}
+                key={item}
+                className={classNames(styles.filterItem, activeClass)}
               >
                 {item}
               </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </>
+            );
+          })}
+        </ul>
+      )}
+    </div>
   );
 }

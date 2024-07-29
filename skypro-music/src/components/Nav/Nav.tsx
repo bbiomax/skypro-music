@@ -5,19 +5,16 @@ import styles from "./Nav.module.css";
 import classNames from "classnames";
 import { useState } from "react";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { userType } from "../Sidebar/Sidebar";
+import { useUser } from "@/hooks/useUser";
 
 export default function Nav() {
   const [isBurgerOpened, setIsBurgerOpened] = useState<boolean>(false);
-  const isAuthenticated = useSelector(
-    (state: userType) => state.user.isAuthenticated
-  );
+  const { user, logout } = useUser();
 
   return (
     <>
       <div className={classNames(styles.mainNav, styles.nav)}>
-        <Link className={classNames(styles.navLogo, styles.logo)} href="/">
+        <Link className={classNames(styles.navLogo, styles.logo)} href="/tracks">
           <Image
             className={styles.logoImage}
             src="/img/logo.png"
@@ -38,24 +35,26 @@ export default function Nav() {
           <div className={classNames(styles.navMenu, styles.menu)}>
             <ul className={styles.menuList}>
               <li className={styles.menuItem}>
-                <Link href="/" className={styles.menuLink}>
+                <Link href="/tracks" className={styles.menuLink}>
                   Главное
                 </Link>
               </li>
-              <li className={styles.menuItem}>
-                <Link href="/favourite" className={styles.menuLink}>
-                  Мой плейлист
-                </Link>
-              </li>
-              <li className={styles.menuItem}>
-                {isAuthenticated ? (
-                  <Link href="/signIn" className={styles.menuLink}>
-                    Выйти
+              {user?.email && (
+                <li className={styles.menuItem}>
+                  <Link href="/tracks/favorites" className={styles.menuLink}>
+                    Мой плейлист
                   </Link>
-                ) : (
-                  <Link href="/signIn" className={styles.menuLink}>
+                </li>
+              )}
+              <li className={styles.menuItem}>
+                {!user?.email ? (
+                  <Link href="/signin" className={styles.menuLink}>
                     Войти
                   </Link>
+                ) : (
+                  <li className={styles.menuItem} onClick={logout}>
+                    Выйти
+                  </li>
                 )}
               </li>
             </ul>

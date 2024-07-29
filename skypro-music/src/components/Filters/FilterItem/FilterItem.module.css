@@ -1,3 +1,8 @@
+.wrapper {
+  position: relative;
+  left: 10px;
+}
+
 .filterButton {
   font-style: normal;
   font-weight: 400;
@@ -9,41 +14,91 @@
   margin-right: 10px;
 }
 
-._btnText:hover {
-  border-color: #d9b6ff;
-  color: #d9b6ff;
-  cursor: pointer;
+.filterButtonActive {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  border: 1px solid #ffffff;
+  border-radius: 60px;
+  padding: 6px 20px;
+  margin-right: 10px;
 }
 
-._btnText:active {
+.BtnTextActive {
   border-color: #ad61ff;
   color: #ad61ff;
   cursor: pointer;
 }
 
-.filterDropdown {
-  position: relative;
+.filterButton:not(:last-child) {
+  margin-right: 10px;
 }
 
-.dropdownList {
+.BtnText:hover {
+  border-color: #d9b6ff;
+  color: #d9b6ff;
+  cursor: pointer;
+}
+
+.BtnText:active {
+  border-color: #ad61ff;
+  color: #ad61ff;
+  cursor: pointer;
+}
+
+.filterList {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  overflow-y: auto;
+  display: flex;
   position: absolute;
   width: 248px;
-  max-height: 305px;
-  background: #313131;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
+  height: 305px;
+  top: 45px;
+  padding: 34px 0px 0px 0px;
   gap: 10px;
-  padding: 34px;
-
-  top: 30px;
-  /* left: -160px; */
-  right: -80px;
-
-  overflow-y: auto;
+  border-radius: 8px;
+  opacity: 0px;
+  background: #313131;
+  flex-direction: column;
+  align-items: center;
 }
 
-.active {
-  color: #9A48F1;
-  border-color: #9A48F1;
+.filterItem {
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+}
+
+.filterItem:hover {
+  color: #b672ff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.counter {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 20px;
+  background-color: #ad61ff;
+  text-align: center;
+  padding: 3px;
+  top: -8px;
+  right: -7px;
+}
+
+.listActive {
+  border-color: #ad61ff;
+  color: #ad61ff;
+  cursor: pointer;
+  text-decoration: underline;
 }
