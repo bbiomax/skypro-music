@@ -1,15 +1,9 @@
 "use client";
 
 import { trackType } from "@/types";
-import Filters from "../Filters/Filters";
 import Track from "../Track/Track";
 import styles from "./Centerblock.module.css";
 import classNames from "classnames";
-import { Search } from "@components/Search/Search";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { getTracks } from "@/api/tracks";
-import { setInitialTracks } from "@/store/features/playlistSlice";
-import { useEffect, useState } from "react";
 
 export default function Centerblock({
   tracks,
@@ -23,7 +17,7 @@ export default function Centerblock({
   isFavorite?: boolean;
 }) {
 
-  console.log("tracks in centerblock " + tracks);
+  // console.log("tracks in centerblock " + tracks);
 
   return (
     <div

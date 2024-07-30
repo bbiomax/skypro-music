@@ -65,7 +65,7 @@ const playlistSlice = createSlice({
         ? state.shuffledPlaylist
         : state.playlist;
       const currentTrackIndex = playlist.findIndex(
-        (track) => track.id === state.currentTrack?.id
+        (track) => track._id === state.currentTrack?._id
       );
       const newTrack = playlist[currentTrackIndex + 1];
       if (newTrack) {
@@ -78,7 +78,7 @@ const playlistSlice = createSlice({
         ? state.shuffledPlaylist
         : state.playlist;
       const currentTrackIndex = playlist.findIndex(
-        (track) => track.id === state.currentTrack?.id
+        (track) => track._id === state.currentTrack?._id
       );
       const newTrack = playlist[currentTrackIndex - 1];
       if (newTrack) {
@@ -113,7 +113,7 @@ const playlistSlice = createSlice({
         const hasAuthors = state.filterOptions.author.length !== 0;
         const hasGenre = state.filterOptions.genre.length !== 0;
         const isGenre = hasGenre
-          ? state.filterOptions.genre.includes(track.genre)
+          ? state.filterOptions.genre.includes(track.genre[0])
           : true;
 
         const isAuthors = hasAuthors

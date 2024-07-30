@@ -34,7 +34,6 @@ export default function FilterItem({
       const arr = new Set(
         tracksData?.flatMap((track: trackType) => track[value]) || []
       );
-      console.log(Array.from(arr));
       return Array.from(arr);
     }
 
@@ -55,7 +54,7 @@ export default function FilterItem({
     );
   };
 
-  console.log(getFilterList())
+  getFilterList()
 
   return (
     <div className={styles.wrapper}>
