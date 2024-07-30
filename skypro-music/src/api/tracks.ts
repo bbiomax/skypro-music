@@ -18,16 +18,6 @@ export async function getTracks(): Promise<trackType[]> {
     .then((res) => {
       return res.data;
     });
-
-  // const res = await fetch(apiUrl);
-
-  // if (!res.ok) {
-  //   throw new Error("Ошибка при получении данных");
-  // }
-
-  // return res.json();
-  // const data: trackType[] = res.json();
-  // return data;
 }
 
 export async function getPlaylistTracks(id: string) {
@@ -37,7 +27,20 @@ export async function getPlaylistTracks(id: string) {
     throw new Error("Ошибка при получении данных");
   }
   const data = await res.json();
-  return data.items;
+  return data.data.items;
+}
+
+export async function getTracksForPlaylist(
+  playlistId: string
+): Promise<trackType[]> {
+  const allTracks = await getTracks();
+  const playlistTrackId = await getPlaylistTracks(playlistId);
+
+  const playlistTracks = allTracks.filter((track) =>
+    playlistTrackId.includes(track._id)
+  );
+
+  return playlistTracks;
 }
 
 export async function getFavoritesTracks(token: string) {

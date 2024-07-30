@@ -4,6 +4,7 @@ import { trackType } from "@/types";
 import Track from "../Track/Track";
 import styles from "./Centerblock.module.css";
 import classNames from "classnames";
+import { getTracksForPlaylist } from "@/api/tracks";
 
 export default function Centerblock({
   tracks,
@@ -16,7 +17,6 @@ export default function Centerblock({
   isLoading?: boolean;
   isFavorite?: boolean;
 }) {
-
   // console.log("tracks in centerblock " + tracks);
 
   return (
