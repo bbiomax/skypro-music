@@ -13,6 +13,7 @@ import { getValueFromLocalStorage } from "@/lib/getValueFromLS";
 import { useEffect, useState } from "react";
 import { setDislike, setLike } from "@/api/tracks";
 import { FormatSeconds } from "@/lib/FormatSeconds";
+import Link from "next/link";
 
 type TrackType = {
   track: trackType;
@@ -23,11 +24,8 @@ type TrackType = {
 export default function Track({ track, tracksData, isFavorite }: TrackType) {
   const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
   const { name, author, album, duration_in_seconds, _id: id } = track;
-  // const isPlaying = currentTrack?.id === id;
   const { isPlaying } = useAppSelector((store) => store.playlist);
   const { user } = useUser();
-  // console.log(user);
-  // console.log(track);
   const token = getValueFromLocalStorage("token");
   const isLikedByUser =
     isFavorite || track.staredUser.find((u) => u._id === user?._id);
@@ -41,12 +39,12 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
   const handleLikeClick = () => {
     isLiked ? setDislike(token.access, id) : setLike(token.access, id);
     setIsLiked(!isLiked);
+    console.log(isLiked);
   };
 
   useEffect(() => {
     const isLikedByUser =
-      isFavorite || track.staredUser.find((u) => u._id === user?._id);
-    // console.log(isLikedByUser);
+      isFavorite && track.staredUser.find((u) => u._id === user?._id);
     setIsLiked(!!isLikedByUser);
   }, [track]);
 
@@ -63,7 +61,7 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
               ></div>
             )}
             <svg className={styles.trackTitleSvg}>
-              <use xlinkHref="img/icon/sprite.svg#icon-note" />
+              <use xlinkHref="/img/icon/sprite.svg#icon-note" />
             </svg>
           </div>
           <div className={styles.trackTitleText}>
@@ -78,15 +76,29 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
         <div onClick={handleTrackClick} className={styles.trackAlbum}>
           <span className={styles.trackAlbumLink}>{album}</span>
         </div>
-        <div onClick={handleLikeClick}>
-          <svg className={styles.trackTimeSvg}>
-            <use
-              xlinkHref={`/img/icon/sprite.svg#${
-                isLiked ? "icon-like-active" : "icon-like"
-              }`}
-            />
-          </svg>
-        </div>
+        {user?.email ? (
+          <div onClick={handleLikeClick}>
+            <svg className={styles.trackTimeSvg}>
+              <use
+                xlinkHref={`/img/icon/sprite.svg#${
+                  isLiked ? "icon-like-active" : "icon-like"
+                }`}
+              />
+            </svg>
+          </div>
+        ) : (
+          <Link href={"/signin"}>
+            <div>
+              <svg className={styles.trackTimeSvg}>
+                <use
+                  xlinkHref={`/img/icon/sprite.svg#${
+                    isLiked ? "icon-like-active" : "icon-like"
+                  }`}
+                />
+              </svg>
+            </div>
+          </Link>
+        )}
         <div className={styles.trackTime}>
           <span className={styles.trackTimeText}>
             {FormatSeconds(duration_in_seconds)}

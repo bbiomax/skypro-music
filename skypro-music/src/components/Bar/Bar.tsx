@@ -16,6 +16,7 @@ import { useUser } from "@/hooks/useUser";
 import { getValueFromLocalStorage } from "@/lib/getValueFromLS";
 import { getTracks, setDislike, setLike } from "@/api/tracks";
 import { FormatSeconds } from "@/lib/FormatSeconds";
+import Link from "next/link";
 
 export default function Bar() {
   const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
@@ -56,17 +57,6 @@ export default function Bar() {
   const changeVolume = (e: any) => {
     setVolume(e.target.value);
   };
-
-  // const currentMinutes = Math.floor(currentTime / 60);
-  // const currentSeconds = Math.floor(currentTime % 60);
-  // const durationMinutes = Math.floor(Number(duration) / 60);
-  // const durationSeconds = Math.floor(Number(duration) % 60);
-  // const currentTimeFormatted = `${currentMinutes}:${
-  //   currentSeconds < 10 ? "0" + currentSeconds : currentSeconds
-  // }`;
-  // const durationFormatted = `${durationMinutes}:${
-  //   durationSeconds < 10 ? "0" + durationSeconds : durationSeconds
-  // }`;
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -140,10 +130,6 @@ export default function Bar() {
       setIsLiked(!isLiked);
     }
   };
-
-  // useEffect(() => {
-  //   isPlaying ? audioRef.current?.play() : audioRef.current?.pause();
-  // }, [isPlaying]);
 
   return (
     <>
@@ -250,21 +236,36 @@ export default function Bar() {
                     </div>
                   </div>
                   <div className={styles.trackPlayLikeDis}>
-                    <div
-                      onClick={handleLikeClick}
-                      className={classNames(
-                        styles.trackPlayLike,
-                        styles.BtnIcon
-                      )}
-                    >
-                      <svg className={styles.trackPlayLikeSvg}>
-                        <use
-                          xlinkHref={`/img/icon/sprite.svg#${
-                            isLiked ? "icon-dislike" : "icon-like"
-                          }`}
-                        />
-                      </svg>
-                    </div>
+                    {user?.email ? (
+                      <div
+                        onClick={handleLikeClick}
+                        className={classNames(
+                          styles.trackPlayLike,
+                          styles.BtnIcon
+                        )}
+                      >
+                        <svg className={styles.trackPlayLikeSvg}>
+                          <use
+                            xlinkHref={`/img/icon/sprite.svg#${
+                              isLiked ? "icon-dislike" : "icon-like"
+                            }`}
+                          />
+                        </svg>
+                      </div>
+                    ) : (
+                      <Link href={"/signin"}>
+                        <div
+                          className={classNames(
+                            styles.trackPlayLike,
+                            styles.BtnIcon
+                          )}
+                        >
+                          <svg className={styles.trackPlayLikeSvg}>
+                            <use xlinkHref={`/img/icon/sprite.svg#icon-like`} />
+                          </svg>
+                        </div>
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

@@ -123,9 +123,11 @@
   color: #696969;
 }
 
-.trackTitleText {}
+.trackTitleText {
+}
 
-.trackTime {}
+.trackTime {
+}
 
 .playingDot {
   position: absolute;
@@ -134,7 +136,7 @@
   height: 20px;
   background-color: #b672ff;
   border-radius: 10px;
-  animation: bubble_out .7s ease-in-out infinite both;
+  animation: bubble_out 0.7s ease-in-out infinite both;
 }
 
 .stoppedDot {

@@ -14,11 +14,15 @@ export default function Nav() {
   return (
     <>
       <div className={classNames(styles.mainNav, styles.nav)}>
-        <Link className={classNames(styles.navLogo, styles.logo)} href="/tracks">
+        <Link
+          className={classNames(styles.navLogo, styles.logo)}
+          href="/tracks"
+        >
           <Image
             className={styles.logoImage}
             src="/img/logo.png"
             alt="Логотип skypro-music"
+            fetchPriority="high"
             width={113}
             height={17}
           />

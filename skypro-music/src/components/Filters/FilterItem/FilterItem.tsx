@@ -54,7 +54,7 @@ export default function FilterItem({
     );
   };
 
-  getFilterList()
+  getFilterList();
 
   return (
     <div className={styles.wrapper}>

@@ -16,6 +16,7 @@ export default function Filters() {
   const selectedGenres = useAppSelector(
     (store) => store.playlist.filterOptions.genre
   );
+
   const selectedOrder = useAppSelector(
     (store) => store.playlist.filterOptions.order
   );
@@ -43,7 +44,7 @@ export default function Filters() {
       />
 
       <FilterItem
-        selected={selectedAuthors}
+        selected={selectedGenres}
         isOpened={activeFilter === filters[1].title}
         handleFilterClick={handleFilterClick}
         title={filters[1].title}
