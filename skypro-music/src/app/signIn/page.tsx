@@ -24,18 +24,13 @@ export default function SignInPage() {
       return setError("Заполните все поля");
     }
     let userData: userType;
-    console.log(formInput);
-    await signin(formInput)
-      .then((data) => {
-        userData = data;
-        return getToken(formInput);
-      })
-      .then((tokenData) => {
-        login(userData, tokenData);
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    try {
+      userData = await signin(formInput);
+      const tokenData = await getToken(formInput);
+      login(userData, tokenData);
+    } catch (err) {
+      setError("Данные в неверном формате");
+    }
   };
 
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {

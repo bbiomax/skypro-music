@@ -21,13 +21,25 @@ export default function SignUpPage() {
   const [error, setError] = useState("");
 
   const handleSignUp = async () => {
+    if (
+      !formInput.email.trim() ||
+      !formInput.username.trim() ||
+      !formInput.password.trim() ||
+      !formInput.repeatPassword.trim()
+    ) {
+      return setError("Заполните все поля");
+    }
+
+    if (formInput.password !== formInput.repeatPassword) {
+      return setError("Пароли не совпадают");
+    }
     await signup(formInput)
       .then((data) => {
         login(data);
         router.push("/signin");
       })
       .catch((error) => {
-        alert(error);
+        setError(error + " Данные в неверном формате");
       });
   };
 
