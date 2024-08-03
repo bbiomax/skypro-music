@@ -3,7 +3,6 @@
 import Image from "next/image";
 import styles from "./SignUp.module.css";
 import classNames from "classnames";
-import { authSignUp } from "@/api/auth";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signup } from "@/api/signup";
