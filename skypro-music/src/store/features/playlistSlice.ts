@@ -45,6 +45,19 @@ const playlistSlice = createSlice({
       state.filteredTracks = action.payload.initialTracks;
     },
 
+    updateTrack(state, action) {
+      const { id, ...updates } = action.payload;
+      const trackIndex = state.filteredTracks.findIndex(
+        (track) => track._id === id
+      );
+      if (trackIndex !== -1) {
+        state.filteredTracks[trackIndex] = {
+          ...state.filteredTracks[trackIndex],
+          ...updates,
+        };
+      }
+    },
+
     toggleIsPlaying: (state, action: PayloadAction<boolean>) => {
       state.isPlaying = action.payload;
     },
@@ -160,5 +173,6 @@ export const {
   toggleIsPlaying,
   setFilters,
   setInitialTracks,
+  updateTrack,
 } = playlistSlice.actions;
 export const playlistReducer = playlistSlice.reducer;

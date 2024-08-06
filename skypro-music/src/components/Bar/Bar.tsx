@@ -6,7 +6,7 @@ import classNames from "classnames";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import {
-  setInitialTracks,
+  updateTrack,
   setNextTrack,
   setPrevTrack,
   toggleIsPlaying,
@@ -14,7 +14,7 @@ import {
 } from "@/store/features/playlistSlice";
 import { useUser } from "@/hooks/useUser";
 import { getValueFromLocalStorage } from "@/lib/getValueFromLS";
-import { getTracks, setDislike, setLike } from "@/api/tracks";
+import { setDislike, setLike } from "@/api/tracks";
 import { FormatSeconds } from "@/lib/FormatSeconds";
 import Link from "next/link";
 
@@ -114,20 +114,23 @@ export default function Bar() {
     }
   }, []);
 
-  const handleLikeClick = () => {
+  const handleLikeClick = async (event: any) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     if (currentTrack) {
-      isLiked
-        ? setDislike(token.access, currentTrack?._id).then(() => {
-            getTracks().then((data) => {
-              dispatch(setInitialTracks({ initialTracks: data }));
-            });
-          })
-        : setLike(token.access, currentTrack?._id).then(() => {
-            getTracks().then((data) => {
-              dispatch(setInitialTracks({ initialTracks: data }));
-            });
-          });
-      setIsLiked(!isLiked);
+      try {
+        if (isLiked) {
+          await setDislike(token.access, currentTrack._id);
+          dispatch(updateTrack({ id: currentTrack._id, isFavorite: false }));
+        } else {
+          await setLike(token.access, currentTrack._id);
+          dispatch(updateTrack({ id: currentTrack._id, isFavorite: true }));
+        }
+        setIsLiked(!isLiked); // Переключаем состояние лайка
+      } catch (error) {
+        console.error("Ошибка при изменении состояния лайка:", error);
+      }
     }
   };
 
