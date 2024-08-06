@@ -44,7 +44,7 @@ export async function getTracksForPlaylist(
 }
 
 export async function getFavoritesTracks(token: string) {
-  console.log(token);
+  // console.log(token);
 
   return fetch(
     "https://webdev-music-003b5b991590.herokuapp.com/catalog/track/favorite/all/",
@@ -109,6 +109,7 @@ export async function setLike(token: string, id: number) {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     }
   );
@@ -126,12 +127,33 @@ export async function setDislike(token: string, id: number) {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     }
   );
   if (!res.ok) {
     throw new Error("Ошибка при получении данных");
   }
+  const data = await res.json();
+  return data;
+}
+
+export async function getFavoriteTracks(token: string) {
+  const res = await fetch(
+    "https://webdev-music-003b5b991590.herokuapp.com/catalog/track/favorite/all",
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Ошибка при получении данных");
+  }
+
   const data = await res.json();
   return data;
 }

@@ -7,11 +7,10 @@ import {
   toggleIsPlaying,
 } from "@/store/features/playlistSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import classNames from "classnames";
 import { useUser } from "@/hooks/useUser";
 import { getValueFromLocalStorage } from "@/lib/getValueFromLS";
 import { useEffect, useState } from "react";
-import { setDislike, setLike } from "@/api/tracks";
+import { getFavoriteTracks, setDislike, setLike } from "@/api/tracks";
 import { FormatSeconds } from "@/lib/FormatSeconds";
 import Link from "next/link";
 
@@ -31,22 +30,65 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
     isFavorite || track.staredUser.find((u) => u._id === user?._id);
   const dispatch = useAppDispatch();
   const [isLiked, setIsLiked] = useState(!!isLikedByUser);
+  const [favoriteTracksIds, setFavoriteTracksIds] = useState<number[]>([]);
+
   const handleTrackClick = () => {
     dispatch(setCurrentTrack({ track: { ...track, isFavorite }, tracksData }));
     dispatch(toggleIsPlaying(true));
   };
 
-  const handleLikeClick = () => {
-    isLiked ? setDislike(token.access, id) : setLike(token.access, id);
-    setIsLiked(!isLiked);
-    console.log(isLiked);
+  const handleLikeClick = async (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+    // isLiked ? setDislike(token.access, id) : setLike(token.access, id);
+    // setIsLiked(!isLiked);
+    // console.log(favoriteTracksIds);
+
+    try {
+      // Отправляем запрос на сервер для установки или удаления лайка
+      if (isLiked) {
+        await setDislike(token.access, id);
+        setFavoriteTracksIds((prev) =>
+          prev.filter((trackId) => trackId !== id)
+        ); // Удаляем из избранного
+      } else {
+        await setLike(token.access, id);
+        setFavoriteTracksIds((prev) => [...prev, id]); // Добавляем в избранное
+      }
+
+      setIsLiked(!isLiked); // Переключаем состояние лайка
+    } catch (error) {
+      console.error("Ошибка при изменении состояния лайка:", error);
+    }
   };
 
   useEffect(() => {
-    const isLikedByUser =
-      isFavorite && track.staredUser.find((u) => u._id === user?._id);
+    const fetchFavoriteTracks = async () => {
+      try {
+        const favoriteTracks = await getFavoriteTracks(token.access);
+        setFavoriteTracksIds(
+          favoriteTracks.data.map((track: any) => track._id)
+        );
+      } catch (error) {
+        console.error("Ошибка загрузки любимых треков:", error);
+      }
+    };
+
+    if (token) {
+      fetchFavoriteTracks();
+    }
+  }, [token]);
+
+  // useEffect(() => {
+  //   const isLikedByUser =
+  //     isFavorite || track.staredUser.find((u) => u._id === user?._id);
+  //   setIsLiked(!!isLikedByUser);
+  // }, [track, isFavorite, user]);
+
+  useEffect(() => {
+    const isLikedByUser = favoriteTracksIds.includes(id);
     setIsLiked(!!isLikedByUser);
-  }, [track]);
+  }, [favoriteTracksIds, id]);
 
   return (
     <div onClick={handleTrackClick} className={styles.playlistItem}>
@@ -88,7 +130,7 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
           </div>
         ) : (
           <Link href={"/signin"}>
-            <div>
+            <div onClick={handleLikeClick}>
               <svg className={styles.trackTimeSvg}>
                 <use
                   xlinkHref={`/img/icon/sprite.svg#${
