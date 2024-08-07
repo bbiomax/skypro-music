@@ -9,7 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useUser } from "@/hooks/useUser";
 import { getValueFromLocalStorage } from "@/lib/getValueFromLS";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getFavoriteTracks, setDislike, setLike } from "@/api/tracks";
 import { FormatSeconds } from "@/lib/FormatSeconds";
 import Link from "next/link";
@@ -31,6 +31,7 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
   const dispatch = useAppDispatch();
   const [isLiked, setIsLiked] = useState(!!isLikedByUser);
   const [favoriteTracksIds, setFavoriteTracksIds] = useState<number[]>([]);
+  const hasFetchedRef = useRef(false);
 
   const handleTrackClick = () => {
     dispatch(setCurrentTrack({ track: { ...track, isFavorite }, tracksData }));
@@ -40,23 +41,19 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
   const handleLikeClick = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     event.preventDefault();
-    // isLiked ? setDislike(token.access, id) : setLike(token.access, id);
-    // setIsLiked(!isLiked);
-    // console.log(favoriteTracksIds);
 
     try {
-      // Отправляем запрос на сервер для установки или удаления лайка
       if (isLiked) {
         await setDislike(token.access, id);
         setFavoriteTracksIds((prev) =>
           prev.filter((trackId) => trackId !== id)
-        ); // Удаляем из избранного
+        );
       } else {
         await setLike(token.access, id);
-        setFavoriteTracksIds((prev) => [...prev, id]); // Добавляем в избранное
+        setFavoriteTracksIds((prev) => [...prev, id]);
       }
 
-      setIsLiked(!isLiked); // Переключаем состояние лайка
+      setIsLiked(!isLiked);
     } catch (error) {
       console.error("Ошибка при изменении состояния лайка:", error);
     }
@@ -64,6 +61,9 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
 
   useEffect(() => {
     const fetchFavoriteTracks = async () => {
+      if (!token || hasFetchedRef.current) return;
+
+      hasFetchedRef.current = true;
       try {
         const favoriteTracks = await getFavoriteTracks(token.access);
         setFavoriteTracksIds(
@@ -74,16 +74,8 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
       }
     };
 
-    if (token) {
-      fetchFavoriteTracks();
-    }
+    fetchFavoriteTracks();
   }, [token]);
-
-  // useEffect(() => {
-  //   const isLikedByUser =
-  //     isFavorite || track.staredUser.find((u) => u._id === user?._id);
-  //   setIsLiked(!!isLikedByUser);
-  // }, [track, isFavorite, user]);
 
   useEffect(() => {
     const isLikedByUser = favoriteTracksIds.includes(id);
