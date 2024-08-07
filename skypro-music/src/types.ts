@@ -21,6 +21,6 @@ export type trackType = {
   album: string;
   logo: string | null;
   track_file: string;
-  staredUser: userType[];
+  staredUser: [];
   isFavorite?: boolean;
 };
