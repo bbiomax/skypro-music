@@ -62,6 +62,7 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
   useEffect(() => {
     const fetchFavoriteTracks = async () => {
       if (!token || hasFetchedRef.current) return;
+      if (!user?.email) return;
 
       hasFetchedRef.current = true;
       try {
@@ -122,12 +123,10 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
           </div>
         ) : (
           <Link href={"/signin"}>
-            <div onClick={handleLikeClick}>
+            <div onClick={(e) => e.stopPropagation()}>
               <svg className={styles.trackTimeSvg}>
                 <use
-                  xlinkHref={`/img/icon/sprite.svg#${
-                    isLiked ? "icon-like-active" : "icon-like"
-                  }`}
+                  xlinkHref={`/img/icon/sprite.svg#icon-like`}
                 />
               </svg>
             </div>
