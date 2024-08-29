@@ -4,23 +4,26 @@ import styles from "./Filters.module.css";
 import classNames from "classnames";
 import FilterItem from "./FilterItem/FilterItem";
 import { useState } from "react";
+import { useAppSelector } from "@/hooks";
+import { filters } from "./data";
 
-const filters = [
-  {
-    title: "исполнителю",
-    list: ["мияги", "баста"],
-  },
-  {
-    title: "году выпуска",
-    list: ["2021", "2024"],
-  },
-  {
-    title: "жанру",
-    list: ["Рок", "Хип-хоп"],
-  },
-];
+export const order = ["По умолчанию", "Сначала новые", "Сначала старые"];
 
 export default function Filters() {
+  const selectedAuthors = useAppSelector(
+    (store) => store.playlist.filterOptions.author
+  );
+  const selectedGenres = useAppSelector(
+    (store) => store.playlist.filterOptions.genre
+  );
+
+  const selectedOrder = useAppSelector(
+    (store) => store.playlist.filterOptions.order
+  );
+  const { author, genre } = useAppSelector(
+    (state) => state.playlist.filterOptions
+  );
+
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   function handleFilterClick(newFilter: string) {
     setActiveFilter((prev) => (prev === newFilter ? null : newFilter));
@@ -29,15 +32,34 @@ export default function Filters() {
   return (
     <div className={classNames(styles.centerblockFilter, styles.filter)}>
       <div className={styles.filterTitle}>Искать по:</div>
-      {filters.map((filter) => (
-        <FilterItem
-          key={filter.title}
-          isOpened={activeFilter === filter.title}
-          handleFilterClick={handleFilterClick}
-          title={filter.title}
-          list={filter.list}
-        />
-      ))}
+
+      <FilterItem
+        selected={selectedAuthors}
+        isOpened={activeFilter === filters[0].title}
+        handleFilterClick={handleFilterClick}
+        title={filters[0].title}
+        value={filters[0].value}
+        optionList={author}
+        counter={selectedAuthors.length}
+      />
+
+      <FilterItem
+        selected={selectedGenres}
+        isOpened={activeFilter === filters[1].title}
+        handleFilterClick={handleFilterClick}
+        title={filters[1].title}
+        value={filters[1].value}
+        optionList={genre}
+        counter={selectedGenres.length}
+      />
+
+      <FilterItem
+        selected={selectedOrder}
+        isOpened={activeFilter === filters[2].title}
+        handleFilterClick={handleFilterClick}
+        title={filters[2].title}
+        value={filters[2].value}
+      />
     </div>
   );
 }

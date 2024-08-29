@@ -1,22 +1,31 @@
+"use client";
+
 import classNames from "classnames";
-import styles from "./Sidebar.module.css"
+import styles from "./Sidebar.module.css";
 import Image from "next/image";
+import Link from "next/link";
+import { useSelector } from "react-redux";
+import { useUser } from "@/hooks/useUser";
 
 export default function Sidebar() {
+  const { user, logout } = useUser();
+
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
-      <div className={styles.sidebarPersonal}>
-        <p className={styles.sidebarPersonalName}>Sergey.Ivanov</p>
-        <div className={styles.sidebarIcon}>
-          <svg>
-            <use xlinkHref="img/icon/sprite.svg#logout" />
-          </svg>
+      {user?.email && (
+        <div className={styles.sidebarPersonal}>
+          <p className={styles.sidebarPersonalName}>{user?.email}</p>
+          <div onClick={logout} className={styles.sidebarIcon}>
+            <svg>
+              <use xlinkHref="img/icon/sprite.svg#logout" />
+            </svg>
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.sidebarBlock}>
         <div className={styles.sidebarList}>
           <div className={styles.sidebarItem}>
-            <a className={styles.sidebarLink} href="#">
+            <Link className={styles.sidebarLink} href="/tracks/category/2">
               <Image
                 className={styles.sidebarImg}
                 src="/img/playlist01.png"
@@ -24,29 +33,29 @@ export default function Sidebar() {
                 width={250}
                 height={150}
               />
-            </a>
+            </Link>
           </div>
           <div className={styles.sidebarItem}>
-            <a className={styles.sidebarLink} href="#">
+            <Link className={styles.sidebarLink} href="/tracks/category/3">
               <Image
                 className={styles.sidebarImg}
                 src="/img/playlist02.png"
-                alt="day's playlist"
+                alt="top 100"
                 width={250}
                 height={150}
               />
-            </a>
+            </Link>
           </div>
           <div className={styles.sidebarItem}>
-            <a className={styles.sidebarLink} href="#">
+            <Link className={styles.sidebarLink} href="/tracks/category/4">
               <Image
                 className={styles.sidebarImg}
                 src="/img/playlist03.png"
-                alt="day's playlist"
+                alt="indi"
                 width={250}
                 height={150}
               />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,3 +1,7 @@
+.btn {
+  cursor: pointer;
+}
+
 .bar {
   position: absolute;
   bottom: 0;
@@ -52,6 +56,17 @@
   justify-content: flex-start;
 }
 
+.barVolumeBlock {
+  width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 92px 0 0;
+}
+
 .playerControls {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -85,9 +100,6 @@
   width: 15px;
   height: 14px;
 }
-._btn {
-  cursor: pointer;
-}
 
 .playerBtnPlay {
   margin-right: 23px;
@@ -119,26 +131,6 @@
   width: 18px;
   height: 12px;
   fill: transparent;
-  stroke: #696969;
-}
-
-._btnIcon:hover svg {
-  fill: transparent;
-  stroke: #acacac;
-  cursor: pointer;
-}
-
-._btnIcon_active svg {
-  fill: transparent;
-  stroke: #ffffff;
-  cursor: pointer;
-}
-
-._btnIcon:active .trackPlayLikeSvg,
-._btnIcon:active .trackPlayDislikeSvg {
-  fill: #696969;
-  stroke: #ffffff;
-  cursor: pointer;
 }
 
 .playerBtnShuffle {
@@ -154,7 +146,6 @@
   width: 19px;
   height: 12px;
   fill: transparent;
-  stroke: #696969;
 }
 
 .playerTrackPlay {
@@ -274,17 +265,6 @@
   stroke: #696969;
 }
 
-.barVolumeBlock {
-  width: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 0 92px 0 0;
-}
-
 .volumeContent {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -321,6 +301,54 @@
   width: 109px;
 }
 
+.BtnIcon:hover svg {
+  fill: transparent;
+  stroke: #acacac;
+  cursor: pointer;
+}
+
+.BtnText:active {
+  border-color: #ad61ff;
+  color: #ad61ff;
+  cursor: pointer;
+}
+
+/* .BtnIcon:active svg {
+    fill: transparent;
+    stroke: #ffffff;
+    cursor: pointer;
+  }
+  
+  .BtnIcon:active .trackPlayLikeSvg,
+  .BtnIcon:active .trackPlayDislikeSvg {
+    fill: #696969;
+    stroke: #ffffff;
+    cursor: pointer;
+    
+  } */
+
+.timeLine {
+  display: flex;
+  justify-content: right;
+  opacity: 0px;
+  color: #696969;
+  font-family: StratosSkyeng;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.001em;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.volumeProgress {
+  width: 109px;
+}
+
+.volumeProgressLine {
+  width: 109px;
+}
+
 .volumeProgressLine {
   height: 5px;
   -webkit-appearance: none;
@@ -340,7 +368,7 @@
   appearance: none;
   height: 12px;
   width: 12px;
-  background-color: #1A1A1A;
+  background-color: #1a1a1a;
   border-radius: 50%;
   border: 2px solid white;
   transition: 0.2s ease-in-out;

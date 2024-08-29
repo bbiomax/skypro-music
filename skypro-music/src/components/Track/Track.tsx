@@ -2,39 +2,77 @@
 
 import { trackType } from "@/types";
 import styles from "./Track.module.css";
-import { setCurrentTrack } from "@/store/features/playlistSlice";
+import {
+  setCurrentTrack,
+  toggleIsPlaying,
+} from "@/store/features/playlistSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import classNames from "classnames";
+import { useUser } from "@/hooks/useUser";
+import { getValueFromLocalStorage } from "@/lib/getValueFromLS";
+import { useEffect, useRef, useState } from "react";
+import { getFavoriteTracks, setDislike, setLike } from "@/api/tracks";
+import { FormatSeconds } from "@/lib/FormatSeconds";
+import Link from "next/link";
 
 type TrackType = {
   track: trackType;
   tracksData: trackType[];
+  isFavorite?: boolean;
 };
 
-export default function Track({ track, tracksData }: TrackType) {
+export default function Track({ track, tracksData, isFavorite }: TrackType) {
   const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
-  const { name, author, album, id } = track;
-  // const isPlaying = currentTrack?.id === id;
-  const isPlaying = useAppSelector((state) => state.playlist.isPlaying);
+  const { name, author, album, duration_in_seconds, _id: id } = track;
+  const { isPlaying } = useAppSelector((store) => store.playlist);
+  const { user } = useUser();
+  const token = getValueFromLocalStorage("token");
+  const isLikedByUser =
+    isFavorite || track.staredUser.find((u) => u === user?._id);
   const dispatch = useAppDispatch();
+  const [isLiked, setIsLiked] = useState(!!isLikedByUser);
+  const [favoriteTracksIds, setFavoriteTracksIds] = useState<number[]>([]);
+  const hasFetchedRef = useRef(false);
+
   const handleTrackClick = () => {
-    dispatch(setCurrentTrack({ track, tracksData }));
+    dispatch(setCurrentTrack({ track: { ...track, isFavorite }, tracksData }));
+    dispatch(toggleIsPlaying(true));
+  };
+
+  const handleLikeClick = async (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    try {
+      if (isLiked) {
+        await setDislike(token.access, id);
+        setFavoriteTracksIds((prev) =>
+          prev.filter((trackId) => trackId !== id)
+        );
+      } else {
+        await setLike(token.access, id);
+        setFavoriteTracksIds((prev) => [...prev, id]);
+      }
+
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error("Ошибка при изменении состояния лайка:", error);
+    }
   };
 
   return (
     <div onClick={handleTrackClick} className={styles.playlistItem}>
       <div className={styles.playlistTrack}>
         <div className={styles.trackTitle}>
-          <div
-            className={classNames(styles.trackTitleImage, {
-              [styles.trackTitleImageActive]:
-                isPlaying && currentTrack?.id === id,
-              [styles.trackTitleImageNotActive]:
-                !isPlaying && currentTrack?.id === id,
-            })}
-          >
+          <div className={styles.trackTitleImage}>
+            {currentTrack?._id === track._id && (
+              <div
+                className={`${
+                  isPlaying ? styles.playingDot : styles.stoppedDot
+                }`}
+              ></div>
+            )}
             <svg className={styles.trackTitleSvg}>
-              <use xlinkHref="img/icon/sprite.svg#icon-note" />
+              <use xlinkHref="/img/icon/sprite.svg#icon-note" />
             </svg>
           </div>
           <div className={styles.trackTitleText}>
@@ -43,17 +81,37 @@ export default function Track({ track, tracksData }: TrackType) {
             </span>
           </div>
         </div>
-        <div className={styles.trackAuthor}>
+        <div onClick={handleTrackClick} className={styles.trackAuthor}>
           <span className={styles.trackAuthorLink}>{author}</span>
         </div>
-        <div className={styles.trackAlbum}>
+        <div onClick={handleTrackClick} className={styles.trackAlbum}>
           <span className={styles.trackAlbumLink}>{album}</span>
         </div>
+        {user?.email ? (
+          <div onClick={handleLikeClick}>
+            <svg className={styles.trackTimeSvg}>
+              <use
+                xlinkHref={`/img/icon/sprite.svg#${
+                  isLiked ? "icon-like-active" : "icon-like"
+                }`}
+              />
+            </svg>
+          </div>
+        ) : (
+          <Link href={"/signin"}>
+            <div onClick={(e) => e.stopPropagation()}>
+              <svg className={styles.trackTimeSvg}>
+                <use
+                  xlinkHref={`/img/icon/sprite.svg#icon-like`}
+                />
+              </svg>
+            </div>
+          </Link>
+        )}
         <div className={styles.trackTime}>
-          <svg className={styles.trackTimeSvg}>
-            <use xlinkHref="img/icon/sprite.svg#icon-like" />
-          </svg>
-          <span className={styles.trackTimeText}>4:44</span>
+          <span className={styles.trackTimeText}>
+            {FormatSeconds(duration_in_seconds)}
+          </span>
         </div>
       </div>
     </div>
