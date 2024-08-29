@@ -6,9 +6,7 @@ type CategoryProps = {
 };
 
 export default async function CategoryPage({ params }: CategoryProps) {
-  // const tracksData = await getPlaylistTracks(params.id);
   const tracksData = await getTracksForPlaylist(params.id);
-  console.log(tracksData);
 
   return <Centerblock tracks={tracksData} playlist={tracksData} />;
 }

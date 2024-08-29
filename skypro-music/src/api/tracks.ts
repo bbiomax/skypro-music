@@ -44,7 +44,6 @@ export async function getTracksForPlaylist(
 }
 
 export async function getFavoritesTracks(token: string) {
-  // console.log(token);
 
   return fetch(
     "https://webdev-music-003b5b991590.herokuapp.com/catalog/track/favorite/all/",

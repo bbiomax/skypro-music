@@ -59,30 +59,6 @@ export default function Track({ track, tracksData, isFavorite }: TrackType) {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchFavoriteTracks = async () => {
-  //     if (!token || hasFetchedRef.current) return;
-  //     if (!user?.email) return;
-
-  //     hasFetchedRef.current = true;
-  //     try {
-  //       const favoriteTracks = await getFavoriteTracks(token.access);
-  //       setFavoriteTracksIds(
-  //         favoriteTracks.data.map((track: any) => track._id)
-  //       );
-  //     } catch (error) {
-  //       console.error("Ошибка загрузки любимых треков:", error);
-  //     }
-  //   };
-
-  //   fetchFavoriteTracks();
-  // }, [token]);
-
-  // useEffect(() => {
-  //   const isLikedByUser = favoriteTracksIds.includes(id);
-  //   setIsLiked(!!isLikedByUser);
-  // }, [favoriteTracksIds, id]);
-
   return (
     <div onClick={handleTrackClick} className={styles.playlistItem}>
       <div className={styles.playlistTrack}>

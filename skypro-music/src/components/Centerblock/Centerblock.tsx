@@ -17,8 +17,6 @@ export default function Centerblock({
   isLoading?: boolean;
   isFavorite?: boolean;
 }) {
-  // console.log("tracks in centerblock " + tracks);
-
   return (
     <div
       className={classNames(styles.centerblockContent, styles.playlistContent)}
